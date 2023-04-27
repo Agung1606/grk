@@ -21,18 +21,19 @@ const nameValidate = yup.object().shape({
 });
 
 export default function NameReg({ navigation, route }) {
+  // data from route
+  const data = route?.params?.param;
+
   // route
   const goToLogin = () => navigation.navigate("LoginScreen");
-  const goToEmailReg = () => navigation.navigate("EmailReg");
-
-  // data from route
-  const email = route?.params?.param;
+  const goToEmailReg = () => navigation.navigate("EmailReg", { param: data });
 
   // handle
   const handleNameSubmit = (values) => {
     const newData = {
-      ...values,
-      email
+      ...data,
+      firstName: values.firstName,
+      lastName: values.lastName
     };
     navigation.navigate('BirthdayReg', { param: newData });
   };

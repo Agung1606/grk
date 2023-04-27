@@ -3,11 +3,23 @@ import { View, Text, Pressable, ActivityIndicator } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from 'react'
-
+// toast
+import Toast from 'react-native-toast-message'
 // form
 import { Formik } from 'formik';
 
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from '../state/authSlice';
+
+// firebase
+import { LoginAPI } from '../api/auth';
+
 export default function LoginScreen({ navigation }) {
+  // redux
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
   // route
   const goToSignUp = () => navigation.navigate('SignUp')
 
@@ -15,8 +27,23 @@ export default function LoginScreen({ navigation }) {
   const [hidePassword, setHidePassword] = useState(true)
   const [loading, setLoading] = useState(false)
 
-  // useState hooks handle
+  // handle
   const handleHidePassword = () => setHidePassword(!hidePassword)
+  const handleLogin = async (values, onSubmitProps) => {
+    try {
+      setLoading(true);
+      let res = await LoginAPI(dispatch, values.email, values.password);
+      dispatch(setToken({ token: res?.user.accessToken }));
+      setLoading(false);
+      onSubmitProps.resetForm();
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error.message.replace("Firebase: Error", ""),
+      });
+      setLoading(false);
+    }
+  };
 
   // common style
   const inputStyle = "h-[50px] mb-2 bg-indigo-50 rounded-lg";
@@ -27,15 +54,23 @@ export default function LoginScreen({ navigation }) {
         {/* form container */}
         <View className="w-[85%] h-auto mt-4">
           {/* form */}
-          <Formik>
-            {() => (
+          <Formik
+            initialValues={{
+              email: user?.email,
+              password: "",
+            }}
+            onSubmit={handleLogin}
+          >
+            {({ handleChange, handleSubmit, values }) => (
               <View>
                 {/* username */}
                 <TextInput
-                  placeholder="Username"
+                  placeholder="Email"
                   className={inputStyle}
                   activeUnderlineColor="#3bace2"
                   underlineColor="transparent"
+                  value={values.email}
+                  onChangeText={handleChange("email")}
                 />
                 {/* password */}
                 <TextInput
@@ -50,9 +85,14 @@ export default function LoginScreen({ navigation }) {
                       icon={hidePassword ? "eye-off" : "eye"}
                     />
                   }
+                  value={values.password}
+                  onChangeText={handleChange("password")}
                 />
                 {/* button submit */}
-                <Pressable className="bg-[#3bace2] active:bg-[#229dd6] mt-2 py-[10px] rounded-lg">
+                <Pressable
+                  onPress={handleSubmit}
+                  className="bg-[#3bace2] active:bg-[#229dd6] mt-2 py-[10px] rounded-lg"
+                >
                   <Text className="text-center text-white font-semibold">
                     {loading ? (
                       <ActivityIndicator size="small" color="#fff" />

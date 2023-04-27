@@ -1,11 +1,11 @@
+// react
 import React from 'react';
-
+// toast
+import Toast from 'react-native-toast-message';
 // font
 import { useFonts, Itim_400Regular} from '@expo-google-fonts/itim'
-
 // route
 import { NavigationContainer } from '@react-navigation/native';
-
 // state 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -26,6 +26,7 @@ export default function App() {
         <NavigationContainer>
           <Routes />
         </NavigationContainer>
+        <Toast />
       </PersistGate>
     </Provider>
   );

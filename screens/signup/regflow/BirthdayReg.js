@@ -10,9 +10,12 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function BirthdayReg({ navigation, route }) {
+  // data from route
+  const data = route?.params?.param;
+
   // route
   const goToLogin = () => navigation.navigate("LoginScreen");
-  const goToNameReg = () => navigation.navigate("NameReg");
+  const goToNameReg = () => navigation.navigate("NameReg", { param: data });
 
   // useState hooks
   const [date, setDate] = useState(new Date());
@@ -35,9 +38,6 @@ export default function BirthdayReg({ navigation, route }) {
   ];
   const formatDate =
     date.getDate() + "-" + months[date.getMonth()] + "-" + date.getFullYear();
-
-  // data from route
-  const data = route?.params?.param;
 
   // handle
   const showPicker = () => setIsPickerShow(true);

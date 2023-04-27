@@ -25,8 +25,11 @@ export default function EmailReg({ navigation }) {
   
   // handle
   const handleEmailSubmit = (values) => {
+    const newData = {
+      email: values.email
+    }
     navigation.navigate('NameReg', {
-      param: values.email
+      param: newData
     });
   };
   
