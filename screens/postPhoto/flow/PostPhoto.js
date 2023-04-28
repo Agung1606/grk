@@ -5,11 +5,7 @@ import React, { useEffect, useState } from 'react'
 // icon
 import { AntDesign } from '@expo/vector-icons'
 
-// camera
-import { Camera, CameraType } from 'expo-camera'
-
 // image picker
-import * as ImagePicker from 'expo-image-picker'
 import * as MediaLibrary from 'expo-media-library'
 
 export default function PostPhoto({ navigation }) {
@@ -21,12 +17,10 @@ export default function PostPhoto({ navigation }) {
   const [tempImg, setTempImg] = useState(null);
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(false)
-  
-  const [amount, setAmount] = useState(20);
-  const loadMore = () => setAmount(amount + 20)
+  const [amount, setAmount] = useState(5);
   
   if(status === null) requestPermission();
-
+  
   useEffect(() => {
     (async() => {
       try {
@@ -40,6 +34,25 @@ export default function PostPhoto({ navigation }) {
       }
     })();
   }, [amount]);
+  
+  const add = () => setAmount(amount + 10)
+  const loadMore = () => {
+    return (
+      <TouchableOpacity
+        onPress={add}
+        className="w-[110px] h-[110px] justify-center items-center"
+      >
+        {loading ? (
+          <ActivityIndicator size={"large"} color={"#4169e1"} />
+        ) : (
+          <>
+            <AntDesign name="right" size={25} />
+            <Text className="font-semibold">More</Text>
+          </>
+        )}
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -50,7 +63,10 @@ export default function PostPhoto({ navigation }) {
           </TouchableOpacity>
           <Text className="text-xl font-semibold">New post</Text>
         </View>
-        <TouchableOpacity disabled={!tempImg} onPress={() => alert('go to add caption')}>
+        <TouchableOpacity
+          disabled={!tempImg}
+          onPress={() => alert("go to add caption")}
+        >
           <AntDesign name="arrowright" size={30} color={"#4169e1"} />
         </TouchableOpacity>
       </View>
@@ -90,9 +106,9 @@ export default function PostPhoto({ navigation }) {
             </View>
           )}
           keyExtractor={(item) => item.id}
-          onEndReached={loadMore}
+          // onEndReached={loadMore}
+          ListFooterComponent={loadMore}
         />
-        {loading && <ActivityIndicator size="small" color="#4f86f7" />}
       </View>
     </SafeAreaView>
   );

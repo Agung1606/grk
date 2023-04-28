@@ -4,6 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { TextInput } from "react-native-paper"
 import React, { useState } from 'react'
 
+// secret
+import { DEFAULT_AVATAR } from '@env'
+
 // toast
 import Toast from 'react-native-toast-message'
 
@@ -51,6 +54,7 @@ export default function UsernameReg({ navigation, route }) {
           lastName: data.lastName,
           birthday: data.birthday,
           username: values.username,
+          profileImg: DEFAULT_AVATAR,
         });
         dispatch(setToken({ token: res.user.accessToken }));
         setLoading(false);
