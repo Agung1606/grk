@@ -4,6 +4,7 @@ const Stack = createNativeStackNavigator();
 
 import LoginScreen from './screens/LoginScreen';
 import SignUp from './screens/signup/SignUp';
+import MainStack from "./layout/MainStack";
 import HomeScreen from './screens/HomeScreen';
 
 import { useSelector } from 'react-redux';
@@ -27,29 +28,11 @@ export default function Routes() {
         </Stack.Group>
       ) : (
         <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
+          name="MainStack"
+          component={MainStack}
           options={{ presentation: "modal", animation: "none" }}
         />
       )}
     </Stack.Navigator>
   );
 }
-
-{/* <Stack.Group>
-  <Stack.Screen
-    name="LoginScreen"
-    component={LoginScreen}
-    options={{ presentation: "modal", animation: "none" }}
-  />
-  <Stack.Screen
-    name="SignUp"
-    component={SignUp}
-    options={{ presentation: "modal", animation: "none" }}
-  />
-</Stack.Group>
-<Stack.Screen
-  name="HomeScreen"
-  component={HomeScreen}
-  options={{ presentation: "modal", animation: "none" }}
-/> */}

@@ -1,19 +1,23 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import {setLogout} from '../state/authSlice'
+// screen
+import PostsScreen from '../components/screen/PostsScreen';
+import TweetsScreen from '../components/screen/TweetsScreen';
+// nav
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator()
 
-export default function HomeScreen({ navigation }) {
-  const user = useSelector((state) => state.auth.user)
-  const dispatch = useDispatch();
-  return (
-    <View className="flex-1 bg-white justify-center items-center">
-      <Text>{user?.firstName}</Text>
-      <Text>{user?.email}</Text>
-      <Button
-        title="go to login"
-        onPress={() => dispatch(setLogout())}
-      />
+export default function HomeScreen() {
+
+  return <SafeAreaView className="flex-1 bg-white">
+    <View className='px-2 py-[4px] border-b border-gray-600 justify-center items-center'>
+      <Text className='text-xl font-itim text-deep-blue'>G297K</Text>
     </View>
-  );
+    {/* navigation */}
+    <Tab.Navigator >
+      <Tab.Screen name='post' component={PostsScreen} />
+      <Tab.Screen name='tweet' component={TweetsScreen} />
+    </Tab.Navigator>
+  </SafeAreaView>;
 }

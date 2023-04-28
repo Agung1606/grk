@@ -1,5 +1,13 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow G297K to access your camera."
+        }
+      ]
+    ],
     "name": "grk",
     "slug": "grk",
     "version": "1.0.0",
