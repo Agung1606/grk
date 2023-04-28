@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }) {
   const user = useSelector((state) => state.auth.user);
 
   // route
-  const goToSignUp = () => navigation.navigate('SignUp')
+  const goToSignUp = () => navigation.navigate("SignUpRoute");
 
   // useState hooks
   const [hidePassword, setHidePassword] = useState(true)

@@ -7,12 +7,11 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 
 import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import PostPhoto from '../screens/PostPhoto'
+import PostPhotoStack from '../screens/postPhoto/PostPhotoRoute'
 
 export default function MainStack() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -32,8 +31,8 @@ export default function MainStack() {
       />
       {/* post photo */}
       <Tab.Screen
-        name="PostPhoto"
-        component={PostPhoto}
+        name="PostPhotoStack"
+        component={PostPhotoStack}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="plus-square" size={25} color={color} />

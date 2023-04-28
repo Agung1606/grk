@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 // route
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-const Stack = createNativeStackNavigator()
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 
-import EmailReg from './regflow/EmailReg'
-import NameReg from './regflow/NameReg'
-import BirthdayReg from './regflow/BirthdayReg'
-import PasswordReg from './regflow/PasswordReg'
-import UsernameReg from './regflow/UsernameReg'
+import EmailReg from "./regflow/EmailReg";
+import NameReg from "./regflow/NameReg";
+import BirthdayReg from "./regflow/BirthdayReg";
+import PasswordReg from "./regflow/PasswordReg";
+import UsernameReg from "./regflow/UsernameReg";
 
 export default function SignUp() {
   return (
