@@ -8,38 +8,37 @@ import { AntDesign } from '@expo/vector-icons'
 // image picker
 import * as MediaLibrary from 'expo-media-library'
 
-export default function PostPhoto({ navigation }) {
+export default function ChoosePhoto({ navigation }) {
   // route
   const goToPrevScreen = () => navigation.goBack();
 
   const [status, requestPermission] = MediaLibrary.usePermissions();
-  const [selectedImage, setSelectedImage] = useState(null); // this state will posted to firebase
-  const [tempImg, setTempImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState(null); // this state will posted to firebase
   const [assets, setAssets] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(5);
-  
-  if(status === null) requestPermission();
-  
+
+  if (status === null) requestPermission();
+
   useEffect(() => {
-    (async() => {
+    (async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         await MediaLibrary.getAssetsAsync({ first: amount }).then((data) => {
           setAssets(data.assets);
         });
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         requestPermission();
       }
     })();
   }, [amount]);
-  
-  const add = () => setAmount(amount + 10)
+
+  // handle
   const loadMore = () => {
     return (
       <TouchableOpacity
-        onPress={add}
+        onPress={() => setAmount(amount + 10)}
         className="w-[110px] h-[110px] justify-center items-center"
       >
         {loading ? (
@@ -52,7 +51,13 @@ export default function PostPhoto({ navigation }) {
         )}
       </TouchableOpacity>
     );
-  }
+  };
+
+  const handlePost = () => {
+    navigation.navigate("AddCaptionPhoto", {
+      param: { selectedImg },
+    });
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -63,19 +68,16 @@ export default function PostPhoto({ navigation }) {
           </TouchableOpacity>
           <Text className="text-xl font-semibold">New post</Text>
         </View>
-        <TouchableOpacity
-          disabled={!tempImg}
-          onPress={() => alert("go to add caption")}
-        >
+        <TouchableOpacity disabled={!selectedImg} onPress={handlePost}>
           <AntDesign name="arrowright" size={30} color={"#4169e1"} />
         </TouchableOpacity>
       </View>
 
       <View className="bg-gray-100 my-3">
         <View className="w-[100%] h-[400px] justify-center items-center">
-          {tempImg ? (
+          {selectedImg?.uri ? (
             <Image
-              source={{ uri: tempImg }}
+              source={{ uri: selectedImg?.uri }}
               className="w-full h-full"
               resizeMode="contain"
             />
@@ -93,8 +95,7 @@ export default function PostPhoto({ navigation }) {
             <View className="mx-[5px]">
               <TouchableOpacity
                 onPress={() => {
-                  setSelectedImage(item.filename);
-                  setTempImg(item.uri);
+                  setSelectedImg({uri: item.uri, name: item.filename});
                 }}
               >
                 <Image
@@ -106,7 +107,6 @@ export default function PostPhoto({ navigation }) {
             </View>
           )}
           keyExtractor={(item) => item.id}
-          // onEndReached={loadMore}
           ListFooterComponent={loadMore}
         />
       </View>
