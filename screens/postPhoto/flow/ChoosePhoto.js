@@ -22,15 +22,15 @@ export default function ChoosePhoto({ navigation }) {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         await MediaLibrary.getAssetsAsync({ first: amount }).then((data) => {
           setAssets(data.assets);
         });
-        setLoading(false);
       } catch (error) {
         requestPermission();
       }
+      setLoading(false);
     })();
   }, [amount]);
 

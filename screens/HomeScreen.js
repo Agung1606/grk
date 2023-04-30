@@ -16,8 +16,8 @@ export default function HomeScreen() {
     </View>
     {/* navigation */}
     <Tab.Navigator >
-      <Tab.Screen name='post' component={PostsScreen} />
-      <Tab.Screen name='tweet' component={TweetsScreen} />
+      <Tab.Screen name='posts' component={PostsScreen} />
+      <Tab.Screen name='tweets' component={TweetsScreen} />
     </Tab.Navigator>
   </SafeAreaView>;
 }

@@ -8,7 +8,7 @@ import AddCaptionPhoto from "./flow/AddCaptionPhoto";
 
 export default function PostPhotoStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="ChoosePhoto">
       <Stack.Screen
         name="ChoosePhoto"
         component={ChoosePhoto}

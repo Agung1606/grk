@@ -34,6 +34,9 @@ export default function MainStack() {
         name="PostPhotoStack"
         component={PostPhotoStack}
         options={{
+          tabBarStyle: {
+            display: "none"
+          },
           tabBarIcon: ({ color }) => (
             <FontAwesome name="plus-square" size={25} color={color} />
           ),
