@@ -34,10 +34,12 @@ export default function AddCaptionPhoto({ navigation, route }) {
     const handlePostToFirebase = async () => {
       let object = {
         caption,
-        timeStamp: Date.now(),
+        date: new Date().toLocaleDateString(),
         userId: user.id,
         username: user.username,
         userProfileImg: user.profileImg,
+        likesCount: 0,
+        commentsCount: 0
       };
       uploadPostImg({
         file: data.selectedImg.uri,

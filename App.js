@@ -12,6 +12,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { store } from './state'
 import Routes from './Routes';
+// modal bottom config
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   // font
@@ -23,10 +26,14 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistStore(store)}>
-        <NavigationContainer>
-          <Routes />
-        </NavigationContainer>
-        <Toast />
+        <GestureHandlerRootView className='flex-1'>
+          <BottomSheetModalProvider>
+            <NavigationContainer>
+              <Routes />
+            </NavigationContainer>
+            <Toast />
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );

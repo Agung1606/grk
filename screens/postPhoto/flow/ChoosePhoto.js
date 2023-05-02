@@ -38,7 +38,7 @@ export default function ChoosePhoto({ navigation }) {
   const loadMore = () => {
     return (
       <TouchableOpacity
-        onPress={() => setAmount(amount + 10)}
+        onPress={() => setAmount(amount + 50)}
         className="w-[110px] h-[110px] justify-center items-center"
       >
         {loading ? (
