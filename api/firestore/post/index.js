@@ -14,7 +14,8 @@ import {
 
 
 let postsRef = collection(firestore, "posts");
-let likesRef = collection(firestore, "likes")
+let likesRef = collection(firestore, "likesPost");
+let commentsRef = collection(firestore, "commentsPost");
 
 // post photo
 export const postingPhoto = async (object)  => {
@@ -64,8 +65,62 @@ export const getLikesByUser = ({ userId, postId, setIsLiked }) => {
       const isLiked = likes.some((like) => like.userId === userId);
 
       setIsLiked(isLiked);
+      return isLiked;
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+// comment post
+export const commentPost = ({
+  userId,
+  postId,
+  username,
+  userProfileImg,
+  comment,
+  date,
+  commentsCount,
+  setComment,
+}) => {
+  try {
+    let docToUpdate = doc(postsRef, postId)
+    addDoc(commentsRef, {
+      postId,
+      userId,
+      username,
+      userProfileImg,
+      comment,
+      date,
+    });
+    updateDoc(docToUpdate, { commentsCount: commentsCount + 1 });
+    setComment("");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// get posts comments
+export const getComments = ({ postId, setDataComments}) => {
+  try {
+    let q = query(
+      commentsRef,
+      // orderBy("date", "desc"),
+      where("postId", "==", postId),
+    );
+    onSnapshot(q, (response) => {
+      const comments = response.docs.map((doc) => {
+        return {
+          id: doc.id,
+          userId: doc.data().userId,
+          username: doc.data().username,
+          userProfileImg: doc.data().userProfileImg,
+          comment: doc.data().comment,
+        };
+      });
+      setDataComments(comments);
+    });
+  } catch (error) {
+    console.log(error)
   }
 };

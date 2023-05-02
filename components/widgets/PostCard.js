@@ -1,8 +1,15 @@
 import { View, Text, Image, Pressable, TouchableOpacity } from "react-native";
 import React, { useRef, useMemo, useState } from "react";
 import { Avatar } from "react-native-paper";
+// comment
+import CommentsPost from "../modal/CommentsPost";
+// likes
 import { TapGestureHandler } from "react-native-gesture-handler";
-
+import Animated, {
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import LikeAnimation from "../common/LikeAnimation";
 import { useSelector } from "react-redux";
 // firebase
 import { likePost, getLikesByUser } from "../../api/firestore/post";
@@ -17,13 +24,13 @@ export default function PostCard({ item }) {
 
   // ==== useState hooks, user interaction config ====
   // likes
-  const [loadingLike, setLoadingLike] = useState(false)
   const [isLiked, setIsLiked] = useState(false);
+  const liked = useSharedValue(isLiked ? 1 : 0);
   const handleLike = () => {
-    setLoadingLike(true)
     likePost({ userId: user.id, postId: item.id, isLiked, likesCount: item.likesCount });
-    setLoadingLike(false)
+    liked.value = withSpring(liked.value ? 0 : 1)
   };
+
   // caption
   const [moreCaption, setMoreCaption] = useState(false);
   const handleMoreCaption = () => setMoreCaption(!moreCaption); // toggle
@@ -39,7 +46,7 @@ export default function PostCard({ item }) {
   const closeModal = () => bottomSheetModalRef.current.dismiss();
 
    useMemo(() => {
-     getLikesByUser({ userId: user.id, postId: item.id, setIsLiked });
+    getLikesByUser({ userId: user.id, postId: item.id, setIsLiked });
    }, []);
   return (
     <View className="mb-7 p-2">
@@ -67,19 +74,13 @@ export default function PostCard({ item }) {
           </View>
         </TapGestureHandler>
         {/* love animation when user click like button */}
-        {loadingLike && (
-          <Text>Like animation</Text>
-        )}
+        
       </View>
       {/* like, comment, share icon */}
       <View className="flex-row justify-between items-center px-2 mb-2">
         <View className="flex-row gap-x-4">
           <TouchableOpacity onPress={handleLike}>
-            {isLiked ? (
-              <FontAwesome name="heart" size={25} color={"red"} />
-            ) : (
-              <FontAwesome name="heart-o" size={25} />
-            )}
+            <LikeAnimation color="#fff" size={25} liked={liked} />
           </TouchableOpacity>
           <TouchableOpacity onPress={openModal}>
             <FontAwesome name="comment-o" size={25} />
@@ -99,7 +100,9 @@ export default function PostCard({ item }) {
         )}
         {/* username and caption */}
         <Text>
-          {item.caption && <Text className="font-extrabold">{item.username}</Text>}{" "}
+          {item.caption && (
+            <Text className="font-extrabold">{item.username}</Text>
+          )}{" "}
           <Text>
             {longCaption}{" "}
             {item.caption.length > 40 && !moreCaption && (
@@ -131,7 +134,11 @@ export default function PostCard({ item }) {
         index={0}
         snapPoints={snapPoints}
       >
-        <Text>agung is a good boy</Text>
+        <CommentsPost 
+          onPress={closeModal}
+          postId={item.id}
+          commentsCount={item.commentsCount}
+        />
       </BottomSheetModal>
     </View>
   );

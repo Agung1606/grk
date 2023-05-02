@@ -1,4 +1,4 @@
-import { View, Text, Image, FlatList } from 'react-native'
+import { View, FlatList, ActivityIndicator } from 'react-native'
 import React, { useState, useMemo } from 'react'
 import PostCard from '../widgets/PostCard';
 
@@ -15,6 +15,13 @@ export default function PostsScreen() {
     getPosts(setDataPosts)
   }, []);
 
+  if(dataPosts.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#4169e1" />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-white">
