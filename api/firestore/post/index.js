@@ -13,17 +13,30 @@ import {
 } from "firebase/firestore";
 
 
+let usersRef = collection(firestore, "users");
 let postsRef = collection(firestore, "posts");
 let likesRef = collection(firestore, "likesPost");
 let commentsRef = collection(firestore, "commentsPost");
 
 // post photo
-export const postingPhoto = async (object)  => {
-    await addDoc(postsRef, object)
-        .then(() => {})
+export const postingPhoto = (object)  => {
+    try {
+      let q = query(usersRef, where("userId", "==", object.userId));
+      let docToUpdate = doc(usersRef, object.userId)
+      addDoc(postsRef, object)
+        .then(() => {
+          onSnapshot(q, (response) => {
+            let postsCount = response.docs.map((doc) => doc.data().postsCount);
+            console.log(postsCount)
+            updateDoc(docToUpdate, { postsCount: Number(postsCount) + 1 });
+        });       })
         .catch((error) => {
-            return error;
-        })
+          return error;
+        });
+      
+    } catch (error) {
+      console.log(error)
+    }
 };
 
 // get all posts for home screen

@@ -5,6 +5,7 @@ import React, { useState, useMemo } from 'react'
 import PostCard from '../card/PostCard'
 // firebase
 import { getPosts } from '../../api/firestore/post'
+import { useSelector } from 'react-redux'
 
 export default function PostsScreen() {
   const [dataPosts, setDataPosts] = useState([]);
