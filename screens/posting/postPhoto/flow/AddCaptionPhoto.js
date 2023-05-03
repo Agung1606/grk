@@ -1,11 +1,18 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react'
 
 import { useSelector } from 'react-redux';
 
 // firebase
-import { uploadPostImg } from '../../../api/storage'
+import { uploadPostImg } from '../../../../api/storage'
 // icon
 import { AntDesign } from '@expo/vector-icons'
 // progress
@@ -69,22 +76,30 @@ export default function AddCaptionPhoto({ navigation, route }) {
               </TouchableOpacity>
             )}
           </View>
-          <View className="flex-row items-center space-x-[15px] my-10 mx-4">
-            <Image
-              source={{ uri: data.selectedImg.uri }}
-              className="w-[60px] h-[60px]"
-              resizeMode="cover"
-            />
-            <TextInput
-              placeholder="Write a caption..."
-              className={`bg-inherit flex-1 h-[${height}px] text-[14px] mb-4`}
-              multiline={true}
-              onContentSizeChange={(e) =>
-                setHeight(e.nativeEvent.contentSize.height)
-              }
-              value={caption}
-              onChangeText={(caption) => setCaption(caption)}
-            />
+          <View className="mt-8 flex-row gap-x-4">
+            <View className="items-center space-y-2">
+              <Image
+                source={{ uri: data.selectedImg.uri }}
+                className="w-[60px] h-[60px]"
+                resizeMode="cover"
+              />
+              <Text className="text-xs text-gray-600">{caption.length}/4000</Text>
+            </View>
+            <View className="flex-1">
+              <ScrollView className="mb-14">
+                <TextInput
+                  placeholder="Write a caption..."
+                  className={`bg-inherit h-[${height}px] text-[14px]`}
+                  multiline={true}
+                  maxLength={4000}
+                  onContentSizeChange={(e) =>
+                    setHeight(e.nativeEvent.contentSize.height)
+                  }
+                  value={caption}
+                  onChangeText={(caption) => setCaption(caption)}
+                />
+              </ScrollView>
+            </View>
           </View>
         </SafeAreaView>
       );

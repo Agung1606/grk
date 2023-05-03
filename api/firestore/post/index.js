@@ -26,7 +26,7 @@ export const postingPhoto = async (object)  => {
         })
 };
 
-// get all posts for global
+// get all posts for home screen
 export const getPosts = (setDataPosts) => {
     const q = query(postsRef, orderBy('date', 'desc'));
     onSnapshot(q, (response) => {
@@ -101,13 +101,12 @@ export const commentPost = ({
 };
 
 // get posts comments
-export const getComments = ({ postId, setDataComments}) => {
+export const getComments = async ({ postId, setDataComments}) => {
   try {
     let q = query(
       commentsRef,
-      // orderBy("date", "desc"),
-      where("postId", "==", postId),
-    );
+      where("postId", "==", postId, orderBy("date", "desc")),
+    )
     onSnapshot(q, (response) => {
       const comments = response.docs.map((doc) => {
         return {

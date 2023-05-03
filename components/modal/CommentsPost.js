@@ -20,7 +20,6 @@ export default function CommentsPost({ onPress, postId, commentsCount }) {
   useMemo(() => {
     getComments({ postId, setDataComments })
   }, []);
-
   // handle
   const handleCommentPost = () => {
     commentPost({
@@ -40,7 +39,7 @@ export default function CommentsPost({ onPress, postId, commentsCount }) {
         <Text className="text-xl font-bold">Comments</Text>
         <MaterialIcons name="close" size={24} onPress={onPress} />
       </View>
-      <View className="pr-2 my-2 flex-row items-center gap-x-[14px]">
+      <View className="pb-2 my-2 flex-row items-center gap-x-[14px] border-b border-gray-600">
         <TextInput
           placeholder="Add a comment..."
           underlineColor="transparent"
@@ -62,7 +61,18 @@ export default function CommentsPost({ onPress, postId, commentsCount }) {
         <FlatList 
           data={dataComments}
           renderItem={({ item }) => (
-            <Text>{item.comment}</Text>
+            <View className="my-2 flex-row items-center gap-x-2">
+              <TouchableOpacity onPress={() => alert("go to user's profile")}>
+                <Avatar.Image 
+                  size={30}
+                  source={{uri: item.userProfileImg}}
+                />
+              </TouchableOpacity>
+              <View>
+                <Text className="text-[13px] text-gray-400">{item.username}</Text>
+                <Text>{item.comment}</Text>
+              </View>
+            </View>
           )}
           keyExtractor={(item) => item.id}
         />

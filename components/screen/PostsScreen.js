@@ -1,15 +1,12 @@
 import { View, FlatList, ActivityIndicator } from 'react-native'
 import React, { useState, useMemo } from 'react'
-import PostCard from '../widgets/PostCard';
 
-import { useSelector } from 'react-redux';
-
+// post card
+import PostCard from '../card/PostCard'
 // firebase
 import { getPosts } from '../../api/firestore/post'
 
 export default function PostsScreen() {
-  const user = useSelector((state) => state.auth.user);
-
   const [dataPosts, setDataPosts] = useState([]);
   useMemo(() => {
     getPosts(setDataPosts)
