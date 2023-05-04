@@ -23,7 +23,6 @@ import { useNavigation } from "@react-navigation/native";
 export default function PostCard({ item }) {
   // route
   const navigation = useNavigation();
-  const goToProfile = () => navigation.navigate("ProfileScreen", { param: item.username})
 
   // logged in user data
   const user = useSelector((state) => state.auth.user);
@@ -59,7 +58,7 @@ export default function PostCard({ item }) {
     <View className="mb-7 p-2">
       {/* user's photo and username */}
       <View className="flex-row justify-between items-center mb-2">
-        <Pressable onPress={goToProfile}>
+        <Pressable>
           <View className="flex-row items-center gap-x-3 px-2">
             <Avatar.Image size={30} source={{ uri: item.userProfileImg }} />
             <Text className="font-bold">{item.username}</Text>

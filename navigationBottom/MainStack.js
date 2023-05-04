@@ -1,4 +1,6 @@
 import React from 'react'
+
+// bottom navigation
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 const Tab = createBottomTabNavigator()
 
@@ -9,11 +11,12 @@ import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
 
 import HomeScreen from '../screens/HomeScreen'
 import ProfileScreen from '../screens/ProfileScreen'
+import OtherProfileScreen from '../screens/OtherProfileScreen'
 import PostPhotoScreen from '../screens/posting/postPhoto/PostPhotoRoute'
 import PostTweetScreen from '../screens/posting/PostTweetScreen'
 
 export default function MainStack() {
-  const loggedInUsername = useSelector((state) => state.auth.user.username);
+  // const loggedInUsername = useSelector((state) => state.auth.user.username);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -21,6 +24,7 @@ export default function MainStack() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#4f86f7",
         tabBarInactiveTintColor: "black",
+        tabBarHideOnKeyboard: true,
       }}
     >
       {/* home */}
@@ -63,11 +67,21 @@ export default function MainStack() {
       <Tab.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        initialParams={{ param: loggedInUsername }}
+        // initialParams={{ param: loggedInUsername }}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle" size={25} color={color} />
           ),
+
+        }}
+      />
+      {/* other profile */}
+      <Tab.Screen 
+        name="OtherProfileScreen"
+        component={OtherProfileScreen}
+        options={{
+          tabBarButton: () => null,
+          tabBarVisible: false,
         }}
       />
     </Tab.Navigator>
