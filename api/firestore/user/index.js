@@ -1,4 +1,4 @@
-import { addDoc, collection, onSnapshot } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
 import { firestore } from '../../../firebaseConfig'
 
 // state redux
@@ -14,8 +14,18 @@ export const postUserData = async ({dispatch, ...payload}) => {
                dispatch(
                  setLogin({
                    user: response.docs
-                     .map((docs) => {
-                       return { ...docs.data(), id: docs.id };
+                     .map((doc) => {
+                      return {
+                        ...doc.data(),
+                        id: doc.id,
+                      };
+                      // return {
+                        //   id: doc.id,
+                        //   firstName: doc.data().firstName,
+                        //   lastName: doc.data().lastName,
+                        //   username: doc.data().username,
+                        //   profileImg: doc.data().profileImg,
+                        // };
                      })
                      .filter((item) => {
                        return item.email === payload.email;
@@ -27,4 +37,18 @@ export const postUserData = async ({dispatch, ...payload}) => {
         .catch((error) => {
             return error;
         })
+};
+
+// get user data
+export const getUser = ({ username, setUserData }) => {
+  let q = query(usersRef, where("username", "==", username));
+  onSnapshot(q, (response) => {
+    setUserData(
+      response.docs.map((doc) => {
+        return {
+          ...doc.data(),
+        }
+      })[0]
+    )
+  });
 };

@@ -21,19 +21,11 @@ let commentsRef = collection(firestore, "commentsPost");
 // post photo
 export const postingPhoto = (object)  => {
     try {
-      let q = query(usersRef, where("userId", "==", object.userId));
-      let docToUpdate = doc(usersRef, object.userId)
       addDoc(postsRef, object)
-        .then(() => {
-          onSnapshot(q, (response) => {
-            let postsCount = response.docs.map((doc) => doc.data().postsCount);
-            console.log(postsCount)
-            updateDoc(docToUpdate, { postsCount: Number(postsCount) + 1 });
-        });       })
+        .then(() => {})
         .catch((error) => {
           return error;
         });
-      
     } catch (error) {
       console.log(error)
     }

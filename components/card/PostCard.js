@@ -18,7 +18,13 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 // bottom modal
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function PostCard({ item }) {
+  // route
+  const navigation = useNavigation();
+  const goToProfile = () => navigation.navigate("ProfileScreen", { param: item.username})
+
   // logged in user data
   const user = useSelector((state) => state.auth.user);
 
@@ -48,11 +54,12 @@ export default function PostCard({ item }) {
    useMemo(() => {
     getLikesByUser({ userId: user.id, postId: item.id, setIsLiked });
    }, []);
+
   return (
     <View className="mb-7 p-2">
       {/* user's photo and username */}
       <View className="flex-row justify-between items-center mb-2">
-        <Pressable>
+        <Pressable onPress={goToProfile}>
           <View className="flex-row items-center gap-x-3 px-2">
             <Avatar.Image size={30} source={{ uri: item.userProfileImg }} />
             <Text className="font-bold">{item.username}</Text>
@@ -74,7 +81,6 @@ export default function PostCard({ item }) {
           </View>
         </TapGestureHandler>
         {/* love animation when user click like button */}
-        
       </View>
       {/* like, comment, share icon */}
       <View className="flex-row justify-between items-center px-2 mb-2">
@@ -99,22 +105,22 @@ export default function PostCard({ item }) {
           }`}</Text>
         )}
         {/* username and caption */}
-        <Text>
-          {item.caption && (
-            <Text className="font-extrabold">{item.username}</Text>
-          )}{" "}
+        {item.caption && (
           <Text>
-            {longCaption}{" "}
-            {item.caption.length > 40 && !moreCaption && (
-              <Text
-                onPress={handleMoreCaption}
-                className="text-[16px] text-gray-400"
-              >
-                ...more
-              </Text>
-            )}
+            <Text className="font-extrabold">{item.username}</Text>{" "}
+            <Text>
+              {longCaption}{" "}
+              {item.caption.length > 40 && !moreCaption && (
+                <Text
+                  onPress={handleMoreCaption}
+                  className="text-[16px] text-gray-400"
+                >
+                  ...more
+                </Text>
+              )}
+            </Text>
           </Text>
-        </Text>
+        )}
         {/* comment info */}
         {item.commentsCount > 0 && (
           <TouchableOpacity onPress={openModal}>
@@ -134,7 +140,7 @@ export default function PostCard({ item }) {
         index={0}
         snapPoints={snapPoints}
       >
-        <CommentsPost 
+        <CommentsPost
           onPress={closeModal}
           postId={item.id}
           commentsCount={item.commentsCount}

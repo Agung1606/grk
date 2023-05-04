@@ -55,10 +55,6 @@ export default function UsernameReg({ navigation, route }) {
           birthday: data.birthday,
           username: values.username,
           profileImg: DEFAULT_AVATAR,
-          followers: 0,
-          following: 0,
-          postsCount: 0,
-          tweetsCount: 0,
         });
         dispatch(setToken({ token: res.user.accessToken }));
         setLoading(false);

@@ -14,13 +14,17 @@ export const LoginAPI = (dispatch, email, password) => {
       setLogin({
         user: response.docs
           .map((doc) => {
-            return {
-              id: doc.id,
-              firstName: doc.data().firstName,
-              lastName: doc.data().lastName,
-              username: doc.data().username,
-              profileImg: doc.data().profileImg,
-            };
+            return { 
+              ...doc.data(),
+              id: doc.id
+            }
+            // return {
+            //   id: doc.id,
+            //   firstName: doc.data().firstName,
+            //   lastName: doc.data().lastName,
+            //   username: doc.data().username,
+            //   profileImg: doc.data().profileImg,
+            // };
           })
           .filter((item) => {
             return item.email === email;
