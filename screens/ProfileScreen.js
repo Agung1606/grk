@@ -4,60 +4,102 @@ import React, { useMemo, useState } from 'react'
 import { Avatar } from 'react-native-paper';
 
 // icons
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 // redux
 import { setLogout } from '../state/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+// navigation
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+const Tab = createMaterialTopTabNavigator();
+// component
+import ProfilePostsScreen from '../components/screen/ProfilePostsScreen';
+import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
 
-export default function ProfileScreen({ route, navigation }) {
+export default function ProfileScreen({ navigation }) {
+  // route
+  const goToPostPhoto = () => navigation.navigate("PostPhotoScreen");
   // logout
   const dispatch = useDispatch();
   const handleLogout = () => dispatch(setLogout());
-
   // username logged in
   const user = useSelector((state) => state.auth.user);
 
-
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="mx-3 my-2 flex-row justify-between items-center">
-          <TouchableOpacity>
-            <MaterialIcons name="settings" size={30} />
+      <View className="flex-row justify-between items-center mx-[20px] mt-[12px] mb-[25px]">
+        <Text className="text-[22px] font-semibold">{user.username}</Text>
+        <View className="flex-row items-center gap-x-[30px]">
+          <TouchableOpacity onPress={goToPostPhoto}>
+            <FontAwesome name="plus-square" size={25} />
           </TouchableOpacity>
-        <Text className="text-[16px] font-semibold">
-          {user.username}
-        </Text>
+          <TouchableOpacity>
+            <FontAwesome name="bars" size={25} />
+          </TouchableOpacity>
+        </View>
       </View>
-      {/* wrapper */}
-      <View className="mx-3 mt-4 flex-row justify-between items-center">
-        {/* picture and username */}
-        <View className="space-y-[2px]">
-          <Avatar.Image source={{ uri: user.profileImg}} size={80} />
+      {/* profile and info */}
+      <View className="flex-row justify-between items-center mx-[20px]">
+        <View className="items-center">
+          <Avatar.Image source={{ uri: user.profileImg }} size={80} />
           <Text className="font-semibold">{`${user.firstName} ${user.lastName}`}</Text>
         </View>
-        {/* container info */}
-        <View className="">
-          <View className="flex-row items-center gap-x-[15px]">
-            {/* posts */}
-            <View className="items-center">
-              <Text className="text-lg font-bold">0</Text>
-              <Text>Posts</Text>
-            </View>
-            {/* followers */}
-            <View className="items-center">
-              <Text className="text-lg font-bold">0</Text>
-              <Text>Followers</Text>
-            </View>
-            {/* following */}
-            <View className="items-center">
-              <Text className="text-lg font-bold">0</Text>
-              <Text>Following</Text>
-            </View>
+        <View className="flex-row justify-between items-center gap-x-[22px]">
+          {/* posts */}
+          <View className="items-center">
+            <Text className="text-xl font-bold">0</Text>
+            <Text>Posts</Text>
           </View>
-          {/*  */}
-          <Button title='go to other profile' onPress={() => navigation.navigate('OtherProfileScreen')}/>
+          {/* followers */}
+          <View className="items-center">
+            <Text className="text-xl font-bold">8.1M</Text>
+            <Text>Followers</Text>
+          </View>
+          {/* following */}
+          <View className="items-center">
+            <Text className="text-xl font-bold">1,032</Text>
+            <Text>Following</Text>
+          </View>
         </View>
       </View>
+      {/* bio */}
+      <View className="mx-[20px] my-[2px]">
+        <Text>🇮🇩{"\n"}Amid Bin Bilung</Text>
+      </View>
+      {/* button */}
+      <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">
+        <TouchableOpacity className="bg-gray-300 w-1/2 py-1 rounded-lg">
+          <Text className="text-[17px] text-center font-semibold">
+            Edit profile
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="bg-gray-300 w-1/2 py-1 rounded-lg">
+          <Text className="text-[17px] text-center font-semibold">
+            Share profile
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* postingan photo and tweets */}
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarShowLabel: false,
+        }}
+      >
+        <Tab.Screen
+          name="posts"
+          component={ProfilePostsScreen}
+          options={{
+            tabBarIcon: () => <FontAwesome name="bars" size={25} />,
+          }}
+        />
+        <Tab.Screen
+          name="tweets"
+          component={ProfileTweetsScreen}
+          options={{
+            tabBarIcon: () => <FontAwesome name="ambulance" size={25} />,
+          }}
+        />
+      </Tab.Navigator>
     </SafeAreaView>
   );
 }
