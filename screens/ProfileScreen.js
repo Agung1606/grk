@@ -1,13 +1,15 @@
-import { View, Text, TouchableOpacity, Button, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { Avatar } from 'react-native-paper';
+// modal bottom
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import Setting from '../components/modal/Setting';
 
 // icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // redux
-import { setLogout } from '../state/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // navigation
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 const Tab = createMaterialTopTabNavigator();
@@ -18,11 +20,13 @@ import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
 export default function ProfileScreen({ navigation }) {
   // route
   const goToPostPhoto = () => navigation.navigate("PostPhotoScreen");
-  // logout
-  const dispatch = useDispatch();
-  const handleLogout = () => dispatch(setLogout());
   // username logged in
   const user = useSelector((state) => state.auth.user);
+
+  // modal config
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints = useMemo(() => ["27%"], []);
+  const openModal = () => bottomSheetModalRef.current.present();
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -32,7 +36,7 @@ export default function ProfileScreen({ navigation }) {
           <TouchableOpacity onPress={goToPostPhoto}>
             <FontAwesome name="plus-square" size={25} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleLogout}>
+          <TouchableOpacity onPress={openModal}>
             <FontAwesome name="bars" size={25} />
           </TouchableOpacity>
         </View>
@@ -40,18 +44,18 @@ export default function ProfileScreen({ navigation }) {
       {/* profile and info */}
       <View className="flex-row justify-between items-center mx-[20px]">
         <View className="items-center">
-          <Avatar.Image source={{ uri: user.profileImg }} size={80} />
-          <Text className="font-semibold">{user.name}</Text>
+          <Avatar.Image source={{ uri: user.profileImg }} size={90} />
+          <Text className="font-semibold font-itim">{user.name}</Text>
         </View>
         <View className="flex-row justify-between items-center gap-x-[22px]">
           {/* posts */}
           <View className="items-center">
-            <Text className="text-xl font-bold">0</Text>
+            <Text className="text-xl font-bold">4</Text>
             <Text>Posts</Text>
           </View>
           {/* followers */}
           <View className="items-center">
-            <Text className="text-xl font-bold">8.1M</Text>
+            <Text className="text-xl font-bold">8.1JT</Text>
             <Text>Followers</Text>
           </View>
           {/* following */}
@@ -106,6 +110,14 @@ export default function ProfileScreen({ navigation }) {
           }}
         />
       </Tab.Navigator>
+      {/* setting modal */}
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+      >
+        <Setting />
+      </BottomSheetModal>
     </SafeAreaView>
   );
 }

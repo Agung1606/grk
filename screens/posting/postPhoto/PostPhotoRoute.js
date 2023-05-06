@@ -12,7 +12,7 @@ export default function PostPhotoStack() {
       <Stack.Screen
         name="ChoosePhoto"
         component={ChoosePhoto}
-        options={{ presentation: "modal", animation: "slide_from_right" }}
+        options={{ presentation: "modal", animation: "slide_from_right", freezeOnBlur: true }}
       />
       <Stack.Screen
         name="AddCaptionPhoto"

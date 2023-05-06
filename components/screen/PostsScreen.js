@@ -19,7 +19,6 @@ export default function PostsScreen() {
       </View>
     );
   }
-
   return (
     <View className="flex-1 bg-white">
       {/* posts */}

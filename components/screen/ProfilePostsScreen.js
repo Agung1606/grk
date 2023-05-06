@@ -1,7 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useMemo, useState } from 'react'
+import { FlatGrid } from 'react-native-super-grid';
+// icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+// firebase
 import { getUserPosts } from '../../api/firestore/post';
 
 export default function ProfilePostsScreen({ route }) {
@@ -24,8 +26,23 @@ export default function ProfilePostsScreen({ route }) {
   }
 
   return (
-    <View className="flex-1 bg-white justify-center items-center">
-      <Text>Have {dataPosts.length} post(s)</Text>
+    <View className="flex-1 bg-white">
+      <FlatGrid
+        itemDimension={95}
+        spacing={2}
+        data={dataPosts}
+        renderItem={({ item }) => (
+          <View className="h-[120px]">
+            <TouchableOpacity onPress={() => alert(item.id)}>
+              <Image
+                source={{ uri: item.imgPost }}
+                resizeMode="cover"
+                className="w-full h-full"
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
     </View>
   );
 }

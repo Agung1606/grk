@@ -49,7 +49,10 @@ export const getUserPosts = (setDataPosts, userId) => {
   onSnapshot(q, (response) => {
     setDataPosts(
       response.docs.map((doc) => {
-        return {...doc.data(), id: doc.id}
+        return {
+          id: doc.id,
+          imgPost: doc.data().imgPost
+        }
       })
     )
   })
