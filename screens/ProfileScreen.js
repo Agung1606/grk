@@ -20,6 +20,7 @@ import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
 export default function ProfileScreen({ navigation }) {
   // route
   const goToPostPhoto = () => navigation.navigate("PostPhotoScreen");
+  const goToEditProfile = () => navigation.navigate("EditProfileScreen");
   // username logged in
   const user = useSelector((state) => state.auth.user);
 
@@ -66,7 +67,10 @@ export default function ProfileScreen({ navigation }) {
       </View>
       {/* button */}
       <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">
-        <TouchableOpacity className="bg-gray-300 w-1/2 py-1 rounded-lg">
+        <TouchableOpacity
+          onPress={goToEditProfile}
+          className="bg-gray-300 w-1/2 py-1 rounded-lg"
+        >
           <Text className="text-[17px] text-center font-semibold">
             Edit profile
           </Text>
@@ -103,7 +107,7 @@ export default function ProfileScreen({ navigation }) {
           initialParams={{ param: user.id }}
           options={{
             tabBarIcon: () => <MaterialCommunityIcons name="bird" size={25} />,
-            lazy: true
+            lazy: true,
           }}
         />
       </Tab.Navigator>

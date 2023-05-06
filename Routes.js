@@ -5,6 +5,7 @@ const Stack = createNativeStackNavigator();
 import LoginScreen from "./screens/LoginScreen";
 import SignUpRoute from "./screens/signup/SignUpRoute";
 import MainStack from './navigationBottom/MainStack';
+import EditProfileScreen from "./screens/EditProfileScreen";
 
 import { useSelector } from "react-redux";
 
@@ -30,6 +31,11 @@ export default function Routes() {
           <Stack.Screen
             name="MainStack"
             component={MainStack}
+            options={{ presentation: "modal", animation: "none" }}
+          />
+          <Stack.Screen
+            name="EditProfileScreen"
+            component={EditProfileScreen}
             options={{ presentation: "modal", animation: "none" }}
           />
         </Stack.Group>
