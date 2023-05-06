@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import { FlatGrid } from 'react-native-super-grid';
 // icons

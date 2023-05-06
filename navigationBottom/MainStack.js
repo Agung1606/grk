@@ -82,8 +82,6 @@ export default function MainStack() {
           tabBarVisible: false,
         }}
       />
-      {/* other profile */}
-      <Tab.Screen name="Experiment" component={Experiment} />
     </Tab.Navigator>
   );
 }

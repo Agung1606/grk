@@ -15,9 +15,9 @@ export default function HomeScreen() {
       <Text className='text-xl font-itim text-deep-blue'>G297K</Text>
     </View>
     {/* navigation */}
-    <Tab.Navigator >
+    <Tab.Navigator>
       <Tab.Screen name='posts' component={PostsScreen} />
-      <Tab.Screen name='tweets' component={TweetsScreen} />
+      <Tab.Screen name='tweets' component={TweetsScreen} options={{lazy: true}} />
     </Tab.Navigator>
   </SafeAreaView>;
 }

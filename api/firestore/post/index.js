@@ -31,7 +31,7 @@ export const postingPhoto = (object)  => {
     }
 };
 
-// get all posts from data
+// get all posts from database
 export const getPosts = (setDataPosts) => {
     const q = query(postsRef, orderBy('date', 'desc'));
     onSnapshot(q, (response) => {

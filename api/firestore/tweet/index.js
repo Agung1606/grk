@@ -25,7 +25,7 @@ export const postingTweet = ({object,setTweet}) => {
     setTweet("")
 };
 
-// get all tweets for home screen
+// get all tweets from database
 export const getTweets = (setDataTweets) => {
     const q = query(tweetsRef, orderBy("date", "desc"));
     onSnapshot(q, (response) => {
@@ -35,6 +35,18 @@ export const getTweets = (setDataTweets) => {
           })
         );
     })
+};
+
+// get current user's tweet
+export const getUserTweets = (setDataTweets, userId) => {
+  const q = query(tweetsRef, where("userId", "==", userId));;
+  onSnapshot(q, (response) => {
+    setDataTweets(
+      response.docs.map((docs) => {
+        return { ...docs.data(), id: docs.id };
+      })
+    );
+  });
 };
 
 // like tweet

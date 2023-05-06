@@ -74,7 +74,11 @@ export default function TweetCard({ item }) {
             {/* like */}
             <View className="flex-row items-center gap-x-1">
               <TouchableOpacity onPress={handleLike}>
-                <LikeAnimation color="#7d7d7d" size={18} liked={liked} />
+                {isLiked ? (
+                  <FontAwesome name="heart" size={18} color={"red"} />
+                ) : (
+                  <FontAwesome name="heart-o" size={18} color="#7d7d7d" />
+                )}
               </TouchableOpacity>
               <Text className="text-[#7d7d7d]">{item.likesCount}</Text>
             </View>

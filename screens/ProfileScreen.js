@@ -42,17 +42,12 @@ export default function ProfileScreen({ navigation }) {
         </View>
       </View>
       {/* profile and info */}
-      <View className="flex-row justify-between items-center mx-[20px]">
+      <View className="flex-row justify-between items-center mx-[20px] space-x-4">
         <View className="items-center">
           <Avatar.Image source={{ uri: user.profileImg }} size={90} />
           <Text className="font-semibold font-itim">{user.name}</Text>
         </View>
-        <View className="flex-row justify-between items-center gap-x-[22px]">
-          {/* posts */}
-          <View className="items-center">
-            <Text className="text-xl font-bold">4</Text>
-            <Text>Posts</Text>
-          </View>
+        <View className="flex-1 flex-row justify-center items-center space-x-4">
           {/* followers */}
           <View className="items-center">
             <Text className="text-xl font-bold">8.1JT</Text>
@@ -105,8 +100,10 @@ export default function ProfileScreen({ navigation }) {
         <Tab.Screen
           name="tweets"
           component={ProfileTweetsScreen}
+          initialParams={{ param: user.id }}
           options={{
             tabBarIcon: () => <MaterialCommunityIcons name="bird" size={25} />,
+            lazy: true
           }}
         />
       </Tab.Navigator>
