@@ -4,8 +4,6 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 const Tab = createBottomTabNavigator()
 
-import { useSelector } from 'react-redux'
-
 // icons
 import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
 
@@ -14,9 +12,9 @@ import ProfileScreen from '../screens/ProfileScreen'
 import OtherProfileScreen from '../screens/OtherProfileScreen'
 import PostPhotoScreen from '../screens/posting/postPhoto/PostPhotoRoute'
 import PostTweetScreen from '../screens/posting/PostTweetScreen'
+import Experiment from '../screens/Experiment'
 
 export default function MainStack() {
-  // const loggedInUsername = useSelector((state) => state.auth.user.username);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -61,6 +59,7 @@ export default function MainStack() {
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="pencil-alt" size={23} color={color} />
           ),
+          unmountOnBlur: true,
         }}
       />
       {/* profile */}
@@ -72,11 +71,10 @@ export default function MainStack() {
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle" size={25} color={color} />
           ),
-
         }}
       />
       {/* other profile */}
-      <Tab.Screen 
+      <Tab.Screen
         name="OtherProfileScreen"
         component={OtherProfileScreen}
         options={{
@@ -84,6 +82,8 @@ export default function MainStack() {
           tabBarVisible: false,
         }}
       />
+      {/* other profile */}
+      <Tab.Screen name="Experiment" component={Experiment} />
     </Tab.Navigator>
   );
 }

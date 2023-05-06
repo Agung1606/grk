@@ -4,8 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 import EmailReg from "./regflow/EmailReg";
-import NameReg from "./regflow/NameReg";
-import BirthdayReg from "./regflow/BirthdayReg";
 import PasswordReg from "./regflow/PasswordReg";
 import UsernameReg from "./regflow/UsernameReg";
 
@@ -15,16 +13,6 @@ export default function SignUp() {
       <Stack.Screen
         name="EmailReg"
         component={EmailReg}
-        options={{ presentation: "modal", animation: "slide_from_right" }}
-      />
-      <Stack.Screen
-        name="NameReg"
-        component={NameReg}
-        options={{ presentation: "modal", animation: "slide_from_right" }}
-      />
-      <Stack.Screen
-        name="BirthdayReg"
-        component={BirthdayReg}
         options={{ presentation: "modal", animation: "slide_from_right" }}
       />
       <Stack.Screen

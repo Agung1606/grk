@@ -28,7 +28,7 @@ export default function EmailReg({ navigation }) {
     const newData = {
       email: values.email
     }
-    navigation.navigate('NameReg', {
+    navigation.navigate('PasswordReg', {
       param: newData
     });
   };

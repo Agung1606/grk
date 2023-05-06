@@ -31,16 +31,28 @@ export const postingPhoto = (object)  => {
     }
 };
 
-// get all posts for home screen
+// get all posts from data
 export const getPosts = (setDataPosts) => {
     const q = query(postsRef, orderBy('date', 'desc'));
     onSnapshot(q, (response) => {
         setDataPosts(
-            response.docs.map((docs) => {
-                return {...docs.data(), id: docs.id }
+            response.docs.map((doc) => {
+                return {...doc.data(), id: doc.id }
             })
         )
     });
+};
+
+// get current user's post
+export const getUserPosts = (setDataPosts, userId) => {
+  const q = query(postsRef, where("userId", "==", userId));
+  onSnapshot(q, (response) => {
+    setDataPosts(
+      response.docs.map((doc) => {
+        return {...doc.data(), id: doc.id}
+      })
+    )
+  })
 };
 
 // like post

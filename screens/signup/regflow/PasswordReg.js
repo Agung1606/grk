@@ -4,9 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-paper'
 import React, { useState } from 'react'
 
-// icons
-import { AntDesign } from '@expo/vector-icons'
-
 // form
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -23,10 +20,6 @@ export default function PasswordReg({ navigation, route }) {
   // data from route
   const data = route?.params?.param
 
-  // route
-  const goToLogin = () => navigation.navigate("LoginScreen")
-  const gotToBirthdayReg = () => navigation.navigate("BirthdayReg", { param: data })
-
   // useState hooks
   const [hidePassword, setHidePassword] = useState(true)
 
@@ -42,11 +35,6 @@ export default function PasswordReg({ navigation, route }) {
     
   return (
     <SafeAreaView className="flex-1 bg-white relative">
-      <View className="mt-8 mx-3">
-        <Pressable onPress={gotToBirthdayReg}>
-          <AntDesign name="arrowleft" size={30} color="#010026" />
-        </Pressable>
-      </View>
       <View className="mt-6 mx-3">
         <Text className="text-3xl font-semibold">Create a password</Text>
         <Text className="tracking-wide mt-2 pr-8">
@@ -98,13 +86,6 @@ export default function PasswordReg({ navigation, route }) {
             </>
           )}
         </Formik>
-      </View>
-
-      {/* already have an account */}
-      <View className="absolute bottom-8 w-full">
-        <Text className="text-center font-bold text-blue" onPress={goToLogin}>
-          Sudah punya akun?
-        </Text>
       </View>
     </SafeAreaView>
   );

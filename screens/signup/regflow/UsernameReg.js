@@ -14,9 +14,6 @@ import Toast from 'react-native-toast-message'
 import { RegisterAPI } from '../../../api/auth'
 import { postUserData } from '../../../api/firestore/user'
 
-// icon
-import { AntDesign } from "@expo/vector-icons"
-
 // form
 import { Formik } from "formik"
 import * as yup from "yup"
@@ -29,15 +26,12 @@ const usernameValidate = yup.object().shape({
   username: yup.string().required("Username is required and must be unique"),
 });
 
-export default function UsernameReg({ navigation, route }) {
+export default function UsernameReg({ route }) {
     // dispatch redux
     const dispatch = useDispatch();
 
     // data from route
     const data = route?.params?.param
-
-    // route
-    const goToPasswordReg = () => navigation.navigate('PasswordReg', { param: data })
 
     // useState hooks
     const [loading, setLoading] = useState(false)
@@ -50,9 +44,7 @@ export default function UsernameReg({ navigation, route }) {
         postUserData({
           dispatch,
           email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          birthday: data.birthday,
+          name: values.username,
           username: values.username,
           profileImg: DEFAULT_AVATAR,
         });
@@ -69,11 +61,6 @@ export default function UsernameReg({ navigation, route }) {
     };
     return (
       <SafeAreaView className="flex-1 bg-white relative">
-        <View className="mt-8 mx-3">
-          <Pressable onPress={goToPasswordReg}>
-            <AntDesign name="arrowleft" size={30} color="#010026" />
-          </Pressable>
-        </View>
         <View className="mt-6 mx-3">
           <Text className="text-3xl font-semibold">What's your username?</Text>
           <Text className="tracking-wide mt-2 pr-8">

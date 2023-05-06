@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, Button } from 'react-native'
+import { View, Text, TouchableOpacity, Button, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useMemo, useState } from 'react'
 import { Avatar } from 'react-native-paper';
 
 // icons
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // redux
 import { setLogout } from '../state/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ export default function ProfileScreen({ navigation }) {
           <TouchableOpacity onPress={goToPostPhoto}>
             <FontAwesome name="plus-square" size={25} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout}>
             <FontAwesome name="bars" size={25} />
           </TouchableOpacity>
         </View>
@@ -41,7 +41,7 @@ export default function ProfileScreen({ navigation }) {
       <View className="flex-row justify-between items-center mx-[20px]">
         <View className="items-center">
           <Avatar.Image source={{ uri: user.profileImg }} size={80} />
-          <Text className="font-semibold">{`${user.firstName} ${user.lastName}`}</Text>
+          <Text className="font-semibold">{user.name}</Text>
         </View>
         <View className="flex-row justify-between items-center gap-x-[22px]">
           {/* posts */}
@@ -63,7 +63,7 @@ export default function ProfileScreen({ navigation }) {
       </View>
       {/* bio */}
       <View className="mx-[20px] my-[2px]">
-        <Text>🇮🇩{"\n"}Amid Bin Bilung</Text>
+        <Text>🇮🇩{"\n"}Secukupnya🌻</Text>
       </View>
       {/* button */}
       <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">
@@ -83,20 +83,26 @@ export default function ProfileScreen({ navigation }) {
         screenOptions={{
           tabBarLabelStyle: { fontSize: 12 },
           tabBarShowLabel: false,
+          tabBarIndicatorStyle: {
+            backgroundColor: "#808080",
+          },
         }}
       >
         <Tab.Screen
           name="posts"
           component={ProfilePostsScreen}
+          initialParams={{ param: user.id }}
           options={{
-            tabBarIcon: () => <FontAwesome name="bars" size={25} />,
+            tabBarIcon: () => (
+              <MaterialCommunityIcons name="dots-grid" size={25} />
+            ),
           }}
         />
         <Tab.Screen
           name="tweets"
           component={ProfileTweetsScreen}
           options={{
-            tabBarIcon: () => <FontAwesome name="ambulance" size={25} />,
+            tabBarIcon: () => <MaterialCommunityIcons name="bird" size={25} />,
           }}
         />
       </Tab.Navigator>
