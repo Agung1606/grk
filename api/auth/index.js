@@ -20,6 +20,7 @@ export const LoginAPI = (dispatch, email, password) => {
                 name: doc.data().name,
                 username: doc.data().username,
                 profileImg: doc.data().profileImg,
+                bio: doc.data().bio,
               };
             })[0],
           })

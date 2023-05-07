@@ -19,9 +19,9 @@ export const authSlice = createSlice({
       state.token = null;
     },
     userUpdate: (state, action) => {
-      state.user.firstName = action.payload.firstName;
-      state.user.lastName = action.payload.lastName;
+      state.user.name = action.payload.name;
       state.user.username = action.payload.username;
+      state.user.bio = action.payload.bio;
     },
   },
 });

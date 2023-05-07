@@ -28,7 +28,6 @@ export default function ProfileScreen({ navigation }) {
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["27%"], []);
   const openModal = () => bottomSheetModalRef.current.present();
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row justify-between items-center mx-[20px] mt-[12px] mb-[25px]">
@@ -44,10 +43,7 @@ export default function ProfileScreen({ navigation }) {
       </View>
       {/* profile and info */}
       <View className="flex-row justify-between items-center mx-[20px] space-x-4">
-        <View className="items-center">
           <Avatar.Image source={{ uri: user.profileImg }} size={90} />
-          <Text className="font-semibold font-itim">{user.name}</Text>
-        </View>
         <View className="flex-1 flex-row justify-center items-center space-x-4">
           {/* followers */}
           <View className="items-center">
@@ -63,7 +59,8 @@ export default function ProfileScreen({ navigation }) {
       </View>
       {/* bio */}
       <View className="mx-[20px] my-[2px]">
-        <Text>🇮🇩{"\n"}Secukupnya🌻</Text>
+        <Text className="font-semibold font-itim">{user.name}</Text>
+        <Text>{user.bio}</Text>
       </View>
       {/* button */}
       <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">

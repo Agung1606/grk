@@ -1,8 +1,8 @@
-import { addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
+import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { firestore } from '../../../firebaseConfig'
 
 // state redux
-import { setLogin } from '../../../state/authSlice'
+import { setLogin, userUpdate } from '../../../state/authSlice'
 
 let usersRef = collection(firestore, "users");
 
@@ -21,6 +21,7 @@ export const postUserData = async ({ dispatch, ...payload }) => {
                 name: doc.data().name,
                 username: doc.data().username,
                 profileImg: doc.data().profileImg,
+                bio: doc.data().bio,
               };
             })[0],
           })
@@ -45,6 +46,24 @@ export const getUser = ({ username, setUserData }) => {
       })[0]
     )
   });
+};
+
+// edit user profile
+export const editProfile = ({ userId, payload, dispatch }) => {
+  let userToEdit = doc(usersRef, userId);
+  updateDoc(userToEdit, payload)
+    .then(() => {
+      return "Profile has been updated successfully"
+    }).catch((error) => {
+      return error;
+    })
+  dispatch(
+    userUpdate({
+      name: payload.name,
+      username: payload.username,
+      bio: payload.bio
+    })
+  )
 };
 
 // experiment

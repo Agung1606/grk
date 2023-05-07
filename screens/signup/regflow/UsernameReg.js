@@ -47,6 +47,7 @@ export default function UsernameReg({ route }) {
           name: values.username,
           username: values.username,
           profileImg: DEFAULT_AVATAR,
+          bio: '',
         });
         dispatch(setToken({ token: res.user.accessToken }));
         setLoading(false);
