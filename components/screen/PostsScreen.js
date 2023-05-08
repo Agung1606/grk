@@ -15,7 +15,7 @@ export default function PostsScreen() {
 
   if(dataPosts.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 bg-white justify-center items-center">
         <Text className="text-xl font-itim">Tunggu bentar...</Text>
       </View>
     );

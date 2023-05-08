@@ -18,7 +18,7 @@ export default function Setting() {
       {/* activity */}
       <StyledPressable
         onPress={() => alert("Open activity screen")}
-        className="my-1 active:bg-gray-600 rounded-lg"
+        className="my-1 active:bg-gray-200 rounded-lg"
       >
         <View className="flex-row items-center p-2 space-x-4">
           <MaterialCommunityIcons name="clock-time-five-outline" size={30} />
@@ -28,7 +28,7 @@ export default function Setting() {
       {/* archive */}
       <StyledPressable
         onPress={() => alert("Open archive screen")}
-        className="my-1 active:bg-gray-600 rounded-lg"
+        className="my-1 active:bg-gray-200 rounded-lg"
       >
         <View className="flex-row items-center p-2 space-x-4">
           <Entypo name="back-in-time" size={30} />
@@ -38,7 +38,7 @@ export default function Setting() {
       {/* logout */}
       <StyledPressable
         onPress={handleLogout}
-        className="my-1 active:bg-gray-600 rounded-lg"
+        className="my-1 active:bg-gray-200 rounded-lg"
       >
         <View className="flex-row items-center p-2 space-x-4">
           <MaterialCommunityIcons name="logout" size={30} color={"red"} />
