@@ -34,22 +34,17 @@ export default function EditProfileScreen({ navigation }) {
   // conditional if user selected img or remove image
   const profileImg = selectedImg ? selectedImg : user.profileImg;
 
-  // hooks for user that update with new profile
-  const [startUpload, setStartUpload] = useState(false);
-  const [progress, setProgress] = useState(0)
-
   // handle
-  const handleEditProfileData = (values) => {
+  const handleEditProfileData = async (values) => {
     editProfileData({ userId: user.id, payload: values, dispatch });
     if(selectedImg !== null) {
-      editProfileImg({
+      await editProfileImg({
         userId: user.id,
         profileImg: selectedImg,
-        dispatch,
-        setProgress,
-        setStartUpload,
+        dispatch
       });
     }
+    goBack();
   };
 
   // change profile modal config
@@ -85,11 +80,11 @@ export default function EditProfileScreen({ navigation }) {
                 onPress={handleSubmit}
                 className="active:opacity-50"
               >
-                {startUpload ? (
+                {/* {startUpload ? (
                   <Progress.Pie progress={progress} size={30} />
-                ) : (
+                ) : ( */}
                   <AntDesign name="check" size={33} color="#406aff" />
-                )}
+                {/* )} */}
               </StyledPressable>
             </View>
             {/* change profile */}

@@ -54,7 +54,7 @@ export const getUser = ({ username, setUserData }) => {
   });
 };
 
-export const editProfileImg = async ({ userId, profileImg, dispatch, setProgress, setStartUpload }) => {
+export const editProfileImg = async ({ userId, profileImg, dispatch }) => {
   let userToEdit = doc(usersRef, userId);
   let qPosts = query(postsRef, where("userId", "==", userId));
   let qTweets = query(tweetsRef, where("userId", "==", userId));
@@ -101,34 +101,8 @@ export const editProfileImg = async ({ userId, profileImg, dispatch, setProgress
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        // get tast progress, including the number of bytes uploaded and the total number of bytes to be upload
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress)
-        if (snapshot.state === "running") {
-          setStartUpload(true)
-        }
-      },
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            break;
-          case "storage/canceled":
-            // User canceled the upload
-            break;
-
-          // ...
-
-          case "storage/unknown":
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      },
-      // here, should be error handling but i decided to skip it for now
+      (snapshot) => {},
+      (error) => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           updateDoc(userToEdit, { profileImg: downloadURL });
@@ -145,9 +119,6 @@ export const editProfileImg = async ({ userId, profileImg, dispatch, setProgress
               updateDoc(doc.ref, { userProfileImg: downloadURL });
             });
           });
-          setProgress(0);
-          setStartUpload(false);
-          alert('Updated successfuly');
         });
       }
     );

@@ -24,7 +24,6 @@ export default function TweetCard({ item }) {
 
   // likes
   const [isLiked, setIsLiked] = useState(false);
-  const liked = useSharedValue(isLiked ? 1 : 0);
   const handleLike = () => {
     likeTweet({
         userId: user.id,
@@ -32,7 +31,6 @@ export default function TweetCard({ item }) {
         isLiked,
         likesCount: item.likesCount
     })
-    liked.value = withSpring(liked.value ? 0 : 1);
   };
 
   useMemo(() => {

@@ -1,5 +1,5 @@
 // react
-import { View, Text, Pressable, ActivityIndicator } from 'react-native'
+import { View, Text, Pressable, ActivityIndicator, Image } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from 'react'
@@ -7,11 +7,9 @@ import React, { useState } from 'react'
 import Toast from 'react-native-toast-message'
 // form
 import { Formik } from 'formik';
-
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '../state/authSlice';
-
 // firebase
 import { LoginAPI } from '../api/auth';
 
@@ -110,11 +108,13 @@ export default function LoginScreen({ navigation }) {
           <Text className="mt-8 text-blue cursor-pointer">Lupa Password?</Text>
         </Pressable>
         {/* does not have an account yet? */}
-        <View className="absolute bottom-8 flex-row space-x-1">
-          <Text>Belum punya akun?</Text>
-          <Pressable onPress={goToSignUp}>
-            <Text className="text-blue">Daftar</Text>
-          </Pressable>
+        <View className="absolute bottom-4 items-center">
+          <View className="flex-row space-x-1">
+            <Text>Belum punya akun?</Text>
+            <Pressable onPress={goToSignUp}>
+              <Text className="text-blue">Daftar</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </SafeAreaView>

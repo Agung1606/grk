@@ -5,11 +5,7 @@ import { Avatar } from "react-native-paper";
 import CommentsPost from "../modal/CommentsPost";
 // likes
 import { TapGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import LikeAnimation from "../common/LikeAnimation";
+// redux
 import { useSelector } from "react-redux";
 // firebase
 import { likePost, getLikesByUser } from "../../api/firestore/post";
@@ -30,10 +26,8 @@ export default function PostCard({ item }) {
   // ==== useState hooks, user interaction config ====
   // likes
   const [isLiked, setIsLiked] = useState(false);
-  const liked = useSharedValue(isLiked ? 1 : 0);
   const handleLike = () => {
     likePost({ userId: user.id, postId: item.id, isLiked, likesCount: item.likesCount });
-    liked.value = withSpring(liked.value ? 0 : 1)
   };
 
   // caption
@@ -85,7 +79,11 @@ export default function PostCard({ item }) {
       <View className="flex-row justify-between items-center px-2 mb-2">
         <View className="flex-row gap-x-4">
           <TouchableOpacity onPress={handleLike}>
-            <LikeAnimation color="#fff" size={25} liked={liked} />
+            {isLiked ? (
+              <FontAwesome name="heart" size={25} color={"red"} />
+            ) : (
+              <FontAwesome name="heart-o" size={25} />
+            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={openModal}>
             <FontAwesome name="comment-o" size={25} />
