@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { addDoc, and, collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { firestore, storage } from '../../../firebaseConfig'
 // storage
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -142,17 +142,18 @@ export const editProfileData = ({ userId, payload, dispatch }) => {
   );
 };
 
-// experiment
-export const experiment = () => {
-  let q = query(usersRef, where("username", "==", "agngsptra._"));
+// for search engine
+export const searchUserFromFirestore = ({ input, setSearchedUser }) => {
+  let q = query(usersRef, and(
+    where("name", "==", input)
+  ));
   onSnapshot(q, (response) => {
-    console.log(
+    setSearchedUser(
       response.docs.map((doc) => {
         return {
+          id: doc.id,
           username: doc.data().username,
-          firstName: doc.data().firstName,
-          email: doc.data().email,
-          id: doc.id
+          profileImg: doc.data().profileImg
         };
       })
     );

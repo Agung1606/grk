@@ -3,6 +3,8 @@ import { View, Text, Pressable, ActivityIndicator, Image } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from 'react'
+// logo
+import Logo from '../assets/icon.png'
 // toast
 import Toast from 'react-native-toast-message'
 // form
@@ -48,9 +50,9 @@ export default function LoginScreen({ navigation }) {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="relative flex-1 flex-col justify-center items-center">
-        <Text className="text-5xl font-itim text-deep-blue">G297K</Text>
+        <Image source={Logo} className="w-[130px] h-[130px]" />
         {/* form container */}
-        <View className="w-[85%] h-auto mt-4">
+        <View className="w-[85%] h-auto">
           {/* form */}
           <Formik
             initialValues={{

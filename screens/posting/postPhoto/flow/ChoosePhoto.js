@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 
 // icon
 import { AntDesign } from '@expo/vector-icons'
-
 // image picker
 import * as MediaLibrary from 'expo-media-library'
 

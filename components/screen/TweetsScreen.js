@@ -14,6 +14,14 @@ export default function TweetsScreen() {
     getTweets(setDataTweets);
   }, []);
 
+  if (dataTweets.length === 0) {
+    return (
+      <View className="flex-1 bg-white justify-center items-center">
+        <Text className="text-xl font-itim">Tunggu bentar...</Text>
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-white">
       {/* tweets */}

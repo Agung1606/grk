@@ -8,11 +8,11 @@ const Tab = createBottomTabNavigator()
 import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
 
 import HomeScreen from '../screens/HomeScreen'
+import ExploreScreen from '../screens/ExploreScreen'
 import ProfileScreen from '../screens/ProfileScreen'
-import OtherProfileScreen from '../screens/OtherProfileScreen'
+import VisitedProfileScreen from "../screens/VisitedProfileScreen";
 import PostPhotoScreen from '../screens/posting/postPhoto/PostPhotoRoute'
 import PostTweetScreen from '../screens/posting/PostTweetScreen'
-import Experiment from '../screens/Experiment'
 
 export default function MainStack() {
   return (
@@ -35,6 +35,16 @@ export default function MainStack() {
           ),
         }}
       />
+      {/* explore */}
+      <Tab.Screen 
+        name="ExploreScreen"
+        component={ExploreScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="search" size={30} color={color} />
+          ),
+        }}
+      />
       {/* post photo */}
       <Tab.Screen
         name="PostPhotoScreen"
@@ -49,7 +59,7 @@ export default function MainStack() {
         }}
       />
       {/* post tweet */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="PostTweetScreen"
         component={PostTweetScreen}
         options={{
@@ -61,12 +71,11 @@ export default function MainStack() {
           ),
           unmountOnBlur: true,
         }}
-      />
+      /> */}
       {/* profile */}
       <Tab.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        // initialParams={{ param: loggedInUsername }}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user-circle" size={25} color={color} />
@@ -75,8 +84,8 @@ export default function MainStack() {
       />
       {/* other profile */}
       <Tab.Screen
-        name="OtherProfileScreen"
-        component={OtherProfileScreen}
+        name="VisitedProfileScreen"
+        component={VisitedProfileScreen}
         options={{
           tabBarButton: () => null,
           tabBarVisible: false,
