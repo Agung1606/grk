@@ -173,7 +173,7 @@ export const toggleFollow = ({ userId, otherId, isFollowing }) => {
       deleteDoc(docToFollowers);
       deleteDoc(docToFollowing);
     } else {
-      setDoc(docToFollowers, { userId, otherId});
+      setDoc(docToFollowers, { userId: otherId, otherId: userId});
       setDoc(docToFollowing, { userId, otherId });
     }
   } catch (error) {
@@ -182,13 +182,14 @@ export const toggleFollow = ({ userId, otherId, isFollowing }) => {
 };
 
 // chech if loggedInUser has followed the user they visited
-export const getFollowByUser = ({ loggedInUserId, visitedUserId, setIsFollowers, setIsFollowing }) => {
+export const getFollowByUserVisitedScreen = ({ loggedInUserId, visitedUserId, setIsFollowers, setIsFollowing, setFollowersCount, setFollowingsCount }) => {
   try {
     let follow = query(followersRef, where("userId", "==", loggedInUserId));
     onSnapshot(follow, (response) => {
       let followers = response.docs.map((doc) => doc.data());
       const isFollow = followers.some((f) => f.otherId === visitedUserId);
 
+      setFollowingsCount(followers.length);
       setIsFollowers(isFollow);
     })
 
@@ -197,9 +198,31 @@ export const getFollowByUser = ({ loggedInUserId, visitedUserId, setIsFollowers,
       let followings = response.docs.map((doc) => doc.data());
       const isFollowing = followings.some((f) => f.otherId === visitedUserId);
 
+      setFollowersCount(followings.length)
       setIsFollowing(isFollowing)
     })
   } catch (error) {
     console.log(error)
+  }
+};
+
+// get amount of followers for profile screen
+export const getAmountOfFollowers = ({ userId, setFollowersCount, setFollowingsCount }) => {
+  try {
+    let follow = query(followersRef, where('userId', '==', userId));
+    onSnapshot(follow, (response) => {
+      let followers = response.docs.map((doc) => doc.data());
+
+      setFollowersCount(followers.length)
+    })
+
+    let following = query(followingRef, where('userId', '==', userId));
+    onSnapshot(following, (response) => {
+      let followings = response.docs.map((doc) => doc.data());
+
+      setFollowingsCount(followings.length)
+    })
+  } catch (error) {
+    console.log(error)    
   }
 };

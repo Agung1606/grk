@@ -1,11 +1,12 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Avatar } from 'react-native-paper';
 // modal bottom
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Setting from '../components/modal/Setting';
-
+// firebase
+import { getAmountOfFollowers } from '../api/firestore/user';
 // icons
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // redux
@@ -30,8 +31,12 @@ export default function ProfileScreen({ navigation }) {
   const openModal = () => bottomSheetModalRef.current.present();
 
   // // hooks
-  // const [followers, setFollowers] = useState(0);
-  // const [following, setFollowing] = useState(0);
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingsCount, setFollowingsCount] = useState(0);
+
+  useMemo(() => {
+    getAmountOfFollowers({ userId: user.id, setFollowersCount, setFollowingsCount})
+  }, [])
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -52,12 +57,12 @@ export default function ProfileScreen({ navigation }) {
         <View className="flex-1 flex-row justify-center items-center space-x-4">
           {/* followers */}
           <View className="items-center">
-            <Text className="text-xl font-bold">8.1JT</Text>
+            <Text className="text-xl font-bold">{followersCount}</Text>
             <Text>Followers</Text>
           </View>
           {/* following */}
           <View className="items-center">
-            <Text className="text-xl font-bold">1,032</Text>
+            <Text className="text-xl font-bold">{followingsCount}</Text>
             <Text>Following</Text>
           </View>
         </View>

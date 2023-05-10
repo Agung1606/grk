@@ -12,7 +12,10 @@ import ProfilePostsScreen from '../components/screen/ProfilePostsScreen';
 import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
 // firebase
 import { getUser } from '../api/firestore/user';
-import { toggleFollow, getFollowByUser } from '../api/firestore/user';
+import {
+  toggleFollow,
+  getFollowByUserVisitedScreen,
+} from "../api/firestore/user";
 import { useSelector } from 'react-redux';
 
 export default function VisitedProfileScreen({ route, navigation }) {
@@ -23,11 +26,10 @@ export default function VisitedProfileScreen({ route, navigation }) {
   const [userData, setUserData] = useState({});
 
   // hooks
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingsCount, setFollowingsCount] = useState(0);
   const [isFollowers, setIsFollowers] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-
-  console.log(isFollowers)
-  console.log(isFollowing)
 
   const handleToggleFollow = () => {
     toggleFollow({ userId: loggedInUserId, otherId: userId, isFollowing})
@@ -35,7 +37,14 @@ export default function VisitedProfileScreen({ route, navigation }) {
   
   useMemo(() => {
     getUser({ username, setUserData});
-    getFollowByUser({ loggedInUserId, visitedUserId: userId, setIsFollowers, setIsFollowing });
+    getFollowByUserVisitedScreen({
+      loggedInUserId,
+      visitedUserId: userId,
+      setIsFollowers,
+      setIsFollowing,
+      setFollowersCount,
+      setFollowingsCount,
+    });
   }, [username]);
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -56,12 +65,12 @@ export default function VisitedProfileScreen({ route, navigation }) {
         <View className="flex-1 flex-row justify-center items-center space-x-4">
           {/* followers */}
           <View className="items-center">
-            <Text className="text-xl font-bold">0</Text>
+            <Text className="text-xl font-bold">{followersCount}</Text>
             <Text>Followers</Text>
           </View>
           {/* following */}
           <View className="items-center">
-            <Text className="text-xl font-bold">0</Text>
+            <Text className="text-xl font-bold">{followingsCount}</Text>
             <Text>Following</Text>
           </View>
         </View>
@@ -74,8 +83,10 @@ export default function VisitedProfileScreen({ route, navigation }) {
       {/* BUTTON */}
       <View className="mx-[14px] my-2 flex-row justify-between items-center space-x-2">
         {/* follow and unfollow */}
-        <TouchableOpacity onPress={handleToggleFollow} className="bg-blue w-1/2 py-1 rounded-lg">
-          <Text className="text-[17px] text-center font-semibold">Follow</Text>
+        <TouchableOpacity onPress={handleToggleFollow} className={`${isFollowing ? 'bg-gray-300' : 'bg-blue'} w-1/2 py-1 rounded-lg`}>
+          <Text className="text-[17px] text-center font-semibold">
+            {isFollowing ? 'Following' : isFollowers && !isFollowing ? 'Follow back'  : 'Follow'}
+          </Text>
         </TouchableOpacity>
         {/* message */}
         <TouchableOpacity
