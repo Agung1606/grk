@@ -20,7 +20,7 @@ export default function MainStack() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "#4f86f7",
+        tabBarActiveTintColor: "#808080",
         tabBarInactiveTintColor: "black",
         tabBarHideOnKeyboard: true,
       }}

@@ -28,6 +28,11 @@ export default function ProfileScreen({ navigation }) {
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["27%"], []);
   const openModal = () => bottomSheetModalRef.current.present();
+
+  // // hooks
+  // const [followers, setFollowers] = useState(0);
+  // const [following, setFollowing] = useState(0);
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row justify-between items-center mx-[20px] mt-[12px] mb-[25px]">
@@ -57,7 +62,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
       </View>
-      {/* bio */}
+      {/* name and bio */}
       <View className="mx-[20px] my-[2px]">
         <Text className="font-semibold font-itim">{user.name}</Text>
         <Text>{user.bio}</Text>
@@ -72,7 +77,7 @@ export default function ProfileScreen({ navigation }) {
             Edit profile
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className="bg-gray-300 w-1/2 py-1 rounded-lg">
+        <TouchableOpacity onPress={() => alert('Share profile')} className="bg-gray-300 w-1/2 py-1 rounded-lg">
           <Text className="text-[17px] text-center font-semibold">
             Share profile
           </Text>

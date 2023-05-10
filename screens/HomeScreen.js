@@ -29,7 +29,14 @@ export default function HomeScreen() {
         <Text className="text-xl font-itim text-deep-blue">G297K</Text>
       </View>
       {/* navigation */}
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarIndicatorStyle: {
+            backgroundColor: "#808080",
+          },
+        }}
+      >
         <Tab.Screen name="posts" component={PostsScreen} />
         <Tab.Screen
           name="tweets"

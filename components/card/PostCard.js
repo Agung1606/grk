@@ -17,24 +17,35 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 
 export default function PostCard({ item }) {
+  // logged in user data
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
+
   // route
   const navigation = useNavigation();
-
-  // logged in user data
-  const user = useSelector((state) => state.auth.user);
+  const goToProfile = () => {
+    if (item.userId === loggedInUserId) navigation.navigate("ProfileScreen");
+    else navigation.navigate("VisitedProfileScreen", { param: {username: item.username, userId: item.userId} });
+  };
 
   // ==== useState hooks, user interaction config ====
   // likes
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
-    likePost({ userId: user.id, postId: item.id, isLiked, likesCount: item.likesCount });
+    likePost({
+      userId: loggedInUserId,
+      postId: item.id,
+      isLiked,
+      likesCount: item.likesCount,
+    });
   };
 
   // caption
   const [moreCaption, setMoreCaption] = useState(false);
   const handleMoreCaption = () => setMoreCaption(!moreCaption); // toggle
   const longCaption =
-    item.caption.length > 80 && !moreCaption ? item.caption.slice(0, 80) : item.caption;
+    item.caption.length > 80 && !moreCaption
+      ? item.caption.slice(0, 80)
+      : item.caption;
 
   // modal comment config
   const bottomSheetModalRef = useRef(null);
@@ -44,15 +55,15 @@ export default function PostCard({ item }) {
   };
   const closeModal = () => bottomSheetModalRef.current.dismiss();
 
-   useMemo(() => {
-    getLikesByUser({ userId: user.id, postId: item.id, setIsLiked });
-   }, []);
+  useMemo(() => {
+    getLikesByUser({ userId: loggedInUserId, postId: item.id, setIsLiked });
+  }, []);
 
   return (
     <View className="mb-7 p-2">
       {/* user's photo and username */}
       <View className="flex-row justify-between items-center mb-2">
-        <Pressable>
+        <Pressable onPress={goToProfile}>
           <View className="flex-row items-center gap-x-3 px-2">
             <Avatar.Image size={30} source={{ uri: item.userProfileImg }} />
             <Text className="font-bold">{item.username}</Text>
@@ -104,7 +115,7 @@ export default function PostCard({ item }) {
         {/* username and caption */}
         {item.caption && (
           <Text>
-            <Text className="font-extrabold">{item.username}</Text>{" "}
+            <Text onPress={goToProfile} className="font-extrabold">{item.username}</Text>{" "}
             <Text>
               {longCaption}{" "}
               {item.caption.length > 40 && !moreCaption && (

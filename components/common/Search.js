@@ -1,19 +1,22 @@
-import { View, Text, Pressable, TouchableOpacity } from 'react-native'
-import React, { useState, useMemo } from 'react'
-import { TextInput, Avatar } from 'react-native-paper'
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import React, { useState, useMemo } from "react";
+import { TextInput, Avatar } from "react-native-paper";
 // nativewind
-import { styled } from 'nativewind';
+import { styled } from "nativewind";
 const StyledPressable = styled(Pressable);
 // icon
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 // firebase
-import { searchUserFromFirestore } from '../../api/firestore/user';
+import { searchUserFromFirestore } from "../../api/firestore/user";
 // route
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function Search({ close }) {
   // route
   const navigation = useNavigation();
+  // loggedin user id
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
 
   const [searchedUser, setSearchedUser] = useState([]);
   const [input, setInput] = useState("");
@@ -44,7 +47,14 @@ export default function Search({ close }) {
         {searchedUser &&
           searchedUser?.map((data) => (
             <StyledPressable
-            onPress={() => navigation.navigate('VisitedProfileScreen', { param: data.id})}
+              onPress={() => {
+                if (data.id === loggedInUserId)
+                  navigation.navigate("ProfileScreen");
+                else
+                  navigation.navigate("VisitedProfileScreen", {
+                    param: data.username,
+                  });
+              }}
               key={data?.id}
               className="flex-row items-center space-x-2 py-[5px] active:bg-gray-200 rounded-lg"
             >

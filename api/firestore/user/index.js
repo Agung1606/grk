@@ -1,4 +1,4 @@
-import { addDoc, and, collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { addDoc, and, collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import { firestore, storage } from '../../../firebaseConfig'
 // storage
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -11,6 +11,8 @@ import { setLogin, userUpdate, userUpdateProfile } from '../../../state/authSlic
 let usersRef = collection(firestore, "users");
 let postsRef = collection(firestore, "posts");
 let tweetsRef = collection(firestore, "tweets");
+let followersRef = collection(firestore, "followers");
+let followingRef = collection(firestore, "following");
 
 // store user's data
 export const postUserData = async ({ dispatch, ...payload }) => {
@@ -158,4 +160,46 @@ export const searchUserFromFirestore = ({ input, setSearchedUser }) => {
       })
     );
   });
+};
+
+
+// follow and unfollow
+export const toggleFollow = ({ userId, otherId, isFollowing }) => {
+  try {
+    let docToFollowers = doc(followersRef, `${userId}_${otherId}`);
+    let docToFollowing = doc(followingRef, `${userId}_${otherId}`);
+
+    if(isFollowing) {
+      deleteDoc(docToFollowers);
+      deleteDoc(docToFollowing);
+    } else {
+      setDoc(docToFollowers, { userId, otherId});
+      setDoc(docToFollowing, { userId, otherId });
+    }
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+// chech if loggedInUser has followed the user they visited
+export const getFollowByUser = ({ loggedInUserId, visitedUserId, setIsFollowers, setIsFollowing }) => {
+  try {
+    let follow = query(followersRef, where("userId", "==", loggedInUserId));
+    onSnapshot(follow, (response) => {
+      let followers = response.docs.map((doc) => doc.data());
+      const isFollow = followers.some((f) => f.otherId === visitedUserId);
+
+      setIsFollowers(isFollow);
+    })
+
+    let following = query(followingRef, where("userId", "==", loggedInUserId));
+    onSnapshot(following, (response) => {
+      let followings = response.docs.map((doc) => doc.data());
+      const isFollowing = followings.some((f) => f.otherId === visitedUserId);
+
+      setIsFollowing(isFollowing)
+    })
+  } catch (error) {
+    console.log(error)
+  }
 };
