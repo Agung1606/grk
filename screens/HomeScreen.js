@@ -1,6 +1,9 @@
 import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
+// expo
+import { styled, useColorScheme } from "nativewind";
+const StyledSafeAreaView = styled(SafeAreaView);
 // screen
 import PostsScreen from "../components/screen/PostsScreen";
 import TweetsScreen from "../components/screen/TweetsScreen";
@@ -19,14 +22,16 @@ const Tab = createMaterialTopTabNavigator();
 // image picker
 import * as MediaLibrary from 'expo-media-library'
 
-export default function HomeScreen() {
+function HomeScreen() {
   const [status, requestPermission] = MediaLibrary.usePermissions();
   if (status === null) requestPermission();
 
+  const {colorScheme} = useColorScheme();
+
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="px-2 py-[4px] border-b border-gray-600 justify-center items-center">
-        <Text className="text-xl font-itim text-deep-blue">G297K</Text>
+    <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
+      <View className="px-2 py-[4px] justify-center items-center">
+        <Text className="text-xl font-itim">G297K</Text>
       </View>
       {/* navigation */}
       <Tab.Navigator
@@ -34,6 +39,11 @@ export default function HomeScreen() {
           tabBarLabelStyle: { fontSize: 12 },
           tabBarIndicatorStyle: {
             backgroundColor: "#808080",
+          },
+          tabBarStyle: {
+            borderTopWidth: 1,
+            borderTopColor: "#808080",
+            backgroundColor: colorScheme === "light" ? "#ffffff" : "#000000",
           },
         }}
       >
@@ -44,9 +54,11 @@ export default function HomeScreen() {
           options={{ lazy: true }}
         />
       </Tab.Navigator>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }
+
+export default HomeScreen;
 
 {
   /* <Animated.ScrollView onScroll={scrollHandler}>

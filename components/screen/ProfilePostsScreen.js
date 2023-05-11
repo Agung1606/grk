@@ -1,6 +1,8 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import { FlatGrid } from 'react-native-super-grid';
+import { styled } from 'nativewind'
+const StyledView = styled(View);
 // icons
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // firebase
@@ -18,15 +20,15 @@ export default function ProfilePostsScreen({ route }) {
 
   if(dataPosts.length === 0) {
     return (
-      <View className="flex-1 bg-white justify-center items-center">
+      <StyledView className="flex-1 bg-white dark:bg-black justify-center items-center">
         <MaterialCommunityIcons name="emoticon-sad-outline" size={30} />
         <Text className="text-xl font-bold">No Posts</Text>
-      </View>
+      </StyledView>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <StyledView className="flex-1 bg-white dark:bg-black">
       <FlatGrid
         itemDimension={95}
         spacing={2}
@@ -43,6 +45,6 @@ export default function ProfilePostsScreen({ route }) {
           </View>
         )}
       />
-    </View>
+    </StyledView>
   );
 }

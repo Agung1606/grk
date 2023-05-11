@@ -16,7 +16,9 @@ import Routes from './Routes';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-export default function App() {
+import { withExpoSnack } from 'nativewind';
+
+function App() {
   // font
   const [fontsLoaded] = useFonts({
     Itim_400Regular,
@@ -38,3 +40,5 @@ export default function App() {
     </Provider>
   );
 }
+
+export default withExpoSnack(App);

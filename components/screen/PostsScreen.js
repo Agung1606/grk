@@ -1,6 +1,7 @@
 import { View, FlatList, Text } from 'react-native'
 import React, { useState, useMemo } from 'react'
-
+import { styled } from 'nativewind'
+const StyledView = styled(View);
 // post card
 import PostCard from '../card/PostCard'
 // firebase
@@ -10,26 +11,24 @@ export default function PostsScreen() {
   const [dataPosts, setDataPosts] = useState([]);
 
   useMemo(() => {
-    getPosts(setDataPosts)
+    getPosts(setDataPosts);
   }, []);
 
-  if(dataPosts.length === 0) {
+  if (dataPosts.length === 0) {
     return (
-      <View className="flex-1 bg-white justify-center items-center">
+      <StyledView className="flex-1 bg-white dark:bg-black justify-center items-center">
         <Text className="text-xl font-itim">Tunggu bentar...</Text>
-      </View>
+      </StyledView>
     );
   }
   return (
-    <View className="flex-1 bg-white">
+    <StyledView className="flex-1 bg-white dark:bg-black">
       {/* posts */}
-      <View className='mt-2'>
-        <FlatList
-          data={dataPosts}
-          renderItem={({item}) => <PostCard item={item} />}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </View>
+      <FlatList
+        data={dataPosts}
+        renderItem={({ item }) => <PostCard item={item} />}
+        keyExtractor={(item) => item.id}
+      />
+    </StyledView>
   );
 }

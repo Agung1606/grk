@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 // firebase
 import { postingTweet } from '../../api/firestore/tweet'
 
-export default function PostTweetScreen({ navigation }) {
+export default function PostTweet({ navigation }) {
     // route
     const goToPrevScreen = () => navigation.goBack();
     const goToTweetsScreen = () => navigation.navigate("tweets");

@@ -37,7 +37,7 @@ export default function TweetCard({ item }) {
     getLikesByUser({ userId: user.id, tweetId: item.id, setIsLiked });
   }, []);
   return (
-    <View className="mb-7 p-2 border-b border-gray-400">
+    <View className="mb-7 p-2">
       <View className="flex-row gap-x-4">
         {/* profile */}
         <TouchableOpacity>

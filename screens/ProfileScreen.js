@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useMemo, useRef, useState } from 'react'
 import { Avatar } from 'react-native-paper';
+import { styled, useColorScheme } from 'nativewind';
+const StyledSafeAreaView = styled(SafeAreaView);
 // modal bottom
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Setting from '../components/modal/Setting';
@@ -24,6 +26,8 @@ export default function ProfileScreen({ navigation }) {
   const goToEditProfile = () => navigation.navigate("EditProfileScreen");
   // username logged in
   const user = useSelector((state) => state.auth.user);
+  // theme
+  const { colorScheme } = useColorScheme();
 
   // modal config
   const bottomSheetModalRef = useRef(null);
@@ -39,7 +43,7 @@ export default function ProfileScreen({ navigation }) {
   }, [])
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
       <View className="flex-row justify-between items-center mx-[20px] mt-[12px] mb-[25px]">
         <Text className="text-[22px] font-semibold">{user.username}</Text>
         <View className="flex-row items-center gap-x-[30px]">
@@ -53,7 +57,7 @@ export default function ProfileScreen({ navigation }) {
       </View>
       {/* profile and info */}
       <View className="flex-row justify-between items-center mx-[20px] space-x-4">
-          <Avatar.Image source={{ uri: user.profileImg }} size={90} />
+        <Avatar.Image source={{ uri: user.profileImg }} size={90} />
         <View className="flex-1 flex-row justify-center items-center space-x-4">
           {/* followers */}
           <View className="items-center">
@@ -82,7 +86,10 @@ export default function ProfileScreen({ navigation }) {
             Edit profile
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => alert('Share profile')} className="bg-gray-300 w-1/2 py-1 rounded-lg">
+        <TouchableOpacity
+          onPress={() => alert("Share profile")}
+          className="bg-gray-300 w-1/2 py-1 rounded-lg"
+        >
           <Text className="text-[17px] text-center font-semibold">
             Share profile
           </Text>
@@ -95,6 +102,9 @@ export default function ProfileScreen({ navigation }) {
           tabBarShowLabel: false,
           tabBarIndicatorStyle: {
             backgroundColor: "#808080",
+          },
+          tabBarStyle: {
+            backgroundColor: colorScheme === "light" ? "#ffffff" : "#000000",
           },
         }}
       >
@@ -126,6 +136,6 @@ export default function ProfileScreen({ navigation }) {
       >
         <Setting />
       </BottomSheetModal>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }

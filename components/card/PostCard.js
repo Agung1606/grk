@@ -76,13 +76,11 @@ export default function PostCard({ item }) {
       {/* user's post photo */}
       <View className="relative mx-auto mb-2">
         <TapGestureHandler numberOfTaps={2} onActivated={handleLike}>
-          <View className="bg-black/20">
             <Image
               source={{ uri: item.imgPost }}
               style={{ width: 340, height: 340 }}
-              resizeMode="contain"
+              resizeMode="cover"
             />
-          </View>
         </TapGestureHandler>
         {/* love animation when user click like button */}
       </View>

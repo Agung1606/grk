@@ -1,20 +1,21 @@
-import React from 'react'
-
+import React from "react";
+import { useColorScheme } from "react-native";
 // bottom navigation
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-const Tab = createBottomTabNavigator()
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
 
 // icons
-import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
-import HomeScreen from '../screens/HomeScreen'
-import ExploreScreen from '../screens/ExploreScreen'
-import ProfileScreen from '../screens/ProfileScreen'
+import HomeScreen from "../screens/HomeScreen";
+import ExploreScreen from "../screens/ExploreScreen";
+import MessageScreen from "../screens/MessageScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 import VisitedProfileScreen from "../screens/VisitedProfileScreen";
-import PostPhotoScreen from '../screens/posting/postPhoto/PostPhotoRoute'
-import PostTweetScreen from '../screens/posting/PostTweetScreen'
+import PostPhotoScreen from "../screens/posting/postPhoto/PostPhotoRoute";
 
 export default function MainStack() {
+  const {colorScheme} = useColorScheme();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -23,6 +24,9 @@ export default function MainStack() {
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "#808080",
         tabBarHideOnKeyboard: true,
+        tabBarStyle: {
+          backgroundColor: colorScheme === "light" ? "#ffffff" : "#000000",
+        },
       }}
     >
       {/* home */}
@@ -36,7 +40,7 @@ export default function MainStack() {
         }}
       />
       {/* explore */}
-      <Tab.Screen 
+      <Tab.Screen
         name="ExploreScreen"
         component={ExploreScreen}
         options={{
@@ -58,20 +62,16 @@ export default function MainStack() {
           ),
         }}
       />
-      {/* post tweet */}
-      {/* <Tab.Screen
-        name="PostTweetScreen"
-        component={PostTweetScreen}
+      {/* message */}
+      <Tab.Screen
+        name="MessageScreen"
+        component={MessageScreen}
         options={{
-          tabBarStyle: {
-            display: "none",
-          },
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="pencil-alt" size={23} color={color} />
+            <FontAwesome name="wechat" size={25} color={color} />
           ),
-          unmountOnBlur: true,
         }}
-      /> */}
+      />
       {/* profile */}
       <Tab.Screen
         name="ProfileScreen"

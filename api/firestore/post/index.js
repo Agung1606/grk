@@ -10,7 +10,7 @@ import {
   updateDoc,
   where,
   doc,
-  startAfter
+  limit,
 } from "firebase/firestore";
 
 let usersRef = collection(firestore, "users");
@@ -32,16 +32,18 @@ export const postingPhoto = (object)  => {
 };
 
 // for explore screen
-export const getExplorePost = ({ setPostsData }) => {
-  let q = query(postsRef, orderBy('date'));
+export const getExplorePost = ({ setPostsData, limitNum }) => {
+  let q = query(postsRef, orderBy("date"), limit(limitNum));
   onSnapshot(q, (response) => {
-    setPostsData(response.docs.map((doc) => {
-      return {
-        id: doc.id,
-        imgPost: doc.data().imgPost
-      }
-    }));
-  })  
+    setPostsData(
+      response.docs.map((doc) => {
+        return {
+          id: doc.id,
+          imgPost: doc.data().imgPost,
+        };
+      })
+    );
+  });
 };
 
 // get all posts from database to put at home screen

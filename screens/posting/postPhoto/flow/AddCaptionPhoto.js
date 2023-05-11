@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react'
+import { styled } from "nativewind";
+const StyledSafeAreaView = styled(SafeAreaView);
 
 import { useSelector } from 'react-redux';
 
@@ -60,7 +62,7 @@ export default function AddCaptionPhoto({ navigation, route }) {
     };
       
       return (
-        <SafeAreaView className="flex-1 bg-white">
+        <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
           <View className="mx-4 mt-4 flex-row justify-between items-center">
             <View className="flex-row items-center gap-x-[45px]">
               <TouchableOpacity onPress={goToPrevScreen}>
@@ -101,6 +103,6 @@ export default function AddCaptionPhoto({ navigation, route }) {
               </ScrollView>
             </View>
           </View>
-        </SafeAreaView>
+        </StyledSafeAreaView>
       );
 }

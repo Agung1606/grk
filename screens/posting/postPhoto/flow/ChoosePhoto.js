@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useEffect, useState } from 'react'
-
+import { styled } from "nativewind";
+const StyledSafeAreaView = styled(SafeAreaView);
 // icon
 import { AntDesign } from '@expo/vector-icons'
 // image picker
@@ -59,7 +60,7 @@ export default function ChoosePhoto({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
       <View className="mx-4 mt-4 flex-row justify-between items-center">
         <View className="flex-row items-center gap-x-[45px]">
           <TouchableOpacity onPress={goToPrevScreen}>
@@ -72,7 +73,7 @@ export default function ChoosePhoto({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View className="bg-gray-100 my-3">
+      <View className="bg-gray-50 my-3">
         <View className="w-[100%] h-[400px] justify-center items-center">
           {selectedImg?.uri ? (
             <Image
@@ -94,7 +95,7 @@ export default function ChoosePhoto({ navigation }) {
             <View className="mx-[5px]">
               <TouchableOpacity
                 onPress={() => {
-                  setSelectedImg({uri: item.uri, name: item.filename});
+                  setSelectedImg({ uri: item.uri, name: item.filename });
                 }}
               >
                 <Image
@@ -109,6 +110,6 @@ export default function ChoosePhoto({ navigation }) {
           ListFooterComponent={loadMore}
         />
       </View>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }

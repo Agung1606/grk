@@ -1,5 +1,7 @@
-import { View, FlatList, ActivityIndicator, Text } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import React, { useState, useMemo } from "react";
+import { styled } from "nativewind";
+const StyledView = styled(View)
 
 // firebase
 import { getTweets } from "../../api/firestore/tweet"
@@ -16,14 +18,14 @@ export default function TweetsScreen() {
 
   if (dataTweets.length === 0) {
     return (
-      <View className="flex-1 bg-white justify-center items-center">
+      <StyledView className="flex-1 bg-white dark:bg-black justify-center items-center">
         <Text className="text-xl font-itim">Tunggu bentar...</Text>
-      </View>
+      </StyledView>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <StyledView className="flex-1 bg-white dark:bg-black">
       {/* tweets */}
       <View className="mt-2">
         {dataTweets && (
@@ -34,6 +36,6 @@ export default function TweetsScreen() {
           />
         )}
       </View>
-    </View>
+    </StyledView>
   );
 }

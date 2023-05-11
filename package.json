@@ -40,7 +40,8 @@
     "react-native-toast-message": "^2.1.6",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "expo-system-ui": "~2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
