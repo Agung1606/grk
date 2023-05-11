@@ -147,7 +147,7 @@ export const editProfileData = ({ userId, payload, dispatch }) => {
 // for search engine
 export const searchUserFromFirestore = ({ input, setSearchedUser }) => {
   let q = query(usersRef, and(
-    where("name", "==", input)
+    where("username", ">=", input)
   ));
   onSnapshot(q, (response) => {
     setSearchedUser(
@@ -164,16 +164,16 @@ export const searchUserFromFirestore = ({ input, setSearchedUser }) => {
 
 
 // follow and unfollow
-export const toggleFollow = ({ userId, otherId, isFollowing }) => {
+export const toggleFollow = ({ userId, otherId, isFollowers }) => {
   try {
     let docToFollowers = doc(followersRef, `${userId}_${otherId}`);
     let docToFollowing = doc(followingRef, `${userId}_${otherId}`);
 
-    if(isFollowing) {
+    if (isFollowers) {
       deleteDoc(docToFollowers);
       deleteDoc(docToFollowing);
     } else {
-      setDoc(docToFollowers, { userId: otherId, otherId: userId});
+      setDoc(docToFollowers, { userId: otherId, otherId: userId });
       setDoc(docToFollowing, { userId, otherId });
     }
   } catch (error) {
@@ -184,21 +184,21 @@ export const toggleFollow = ({ userId, otherId, isFollowing }) => {
 // chech if loggedInUser has followed the user they visited
 export const getFollowByUserVisitedScreen = ({ loggedInUserId, visitedUserId, setIsFollowers, setIsFollowing, setFollowersCount, setFollowingsCount }) => {
   try {
-    let follow = query(followersRef, where("userId", "==", loggedInUserId));
-    onSnapshot(follow, (response) => {
+    let queryFollow = query(followersRef, where('userId', '==', visitedUserId));
+    onSnapshot(queryFollow, (response) => {
       let followers = response.docs.map((doc) => doc.data());
-      const isFollow = followers.some((f) => f.otherId === visitedUserId);
+      let isFollow = followers.some((f) => f.otherId === loggedInUserId);
 
-      setFollowingsCount(followers.length);
-      setIsFollowers(isFollow);
+      setFollowersCount(followers.length)
+      setIsFollowers(isFollow)
     })
 
-    let following = query(followingRef, where("userId", "==", loggedInUserId));
-    onSnapshot(following, (response) => {
+    let queryFollowing = query(followingRef, where('userId', '==', visitedUserId));
+    onSnapshot(queryFollowing, (response) => {
       let followings = response.docs.map((doc) => doc.data());
-      const isFollowing = followings.some((f) => f.otherId === visitedUserId);
+      let isFollowing = followings.some((f) => f.otherId === loggedInUserId);
 
-      setFollowersCount(followings.length)
+      setFollowingsCount(followings.length)
       setIsFollowing(isFollowing)
     })
   } catch (error) {

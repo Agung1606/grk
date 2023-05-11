@@ -33,7 +33,7 @@ export default function Search({ close }) {
           <MaterialIcons name="arrow-back" size={30} />
         </TouchableOpacity>
         <TextInput
-          placeholder="Search name"
+          placeholder="Search"
           className="flex-1 bg-gray-200 h-[40px] rounded-[8px]"
           activeUnderlineColor="#b5b5b5"
           underlineColor="transparent"
@@ -52,7 +52,7 @@ export default function Search({ close }) {
                   navigation.navigate("ProfileScreen");
                 else
                   navigation.navigate("VisitedProfileScreen", {
-                    param: data.username,
+                    param: {username: data.username, userId: data.id}
                   });
               }}
               key={data?.id}

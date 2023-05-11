@@ -32,7 +32,7 @@ export default function VisitedProfileScreen({ route, navigation }) {
   const [isFollowing, setIsFollowing] = useState(false);
 
   const handleToggleFollow = () => {
-    toggleFollow({ userId: loggedInUserId, otherId: userId, isFollowing})
+    toggleFollow({ userId: loggedInUserId, otherId: userId, isFollowers})
   };
   
   useMemo(() => {
@@ -83,9 +83,9 @@ export default function VisitedProfileScreen({ route, navigation }) {
       {/* BUTTON */}
       <View className="mx-[14px] my-2 flex-row justify-between items-center space-x-2">
         {/* follow and unfollow */}
-        <TouchableOpacity onPress={handleToggleFollow} className={`${isFollowing ? 'bg-gray-300' : 'bg-blue'} w-1/2 py-1 rounded-lg`}>
+        <TouchableOpacity onPress={handleToggleFollow} className={`${isFollowers ? 'bg-gray-300' : 'bg-blue'} w-1/2 py-1 rounded-lg`}>
           <Text className="text-[17px] text-center font-semibold">
-            {isFollowing ? 'Following' : isFollowers && !isFollowing ? 'Follow back'  : 'Follow'}
+            {isFollowers ? 'Following' : !isFollowers && isFollowing ? 'Follow back' : 'Follow'}
           </Text>
         </TouchableOpacity>
         {/* message */}
