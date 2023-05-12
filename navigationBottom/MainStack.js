@@ -13,6 +13,7 @@ import MessageScreen from "../screens/MessageScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import VisitedProfileScreen from "../screens/VisitedProfileScreen";
 import PostPhotoScreen from "../screens/posting/postPhoto/PostPhotoRoute";
+import PostTweetScreen from "../screens/posting/PostTweetScreen";
 
 export default function MainStack() {
   const {colorScheme} = useColorScheme();
@@ -89,6 +90,16 @@ export default function MainStack() {
         options={{
           tabBarButton: () => null,
           tabBarVisible: false,
+        }}
+      />
+      {/* post tweet screen */}
+      <Tab.Screen 
+        name="PostTweetScreen"
+        component={PostTweetScreen}
+        options={{
+          tabBarButton: () => null,
+          tabBarVisible: false,
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

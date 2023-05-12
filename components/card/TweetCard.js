@@ -37,7 +37,7 @@ export default function TweetCard({ item }) {
     getLikesByUser({ userId: user.id, tweetId: item.id, setIsLiked });
   }, []);
   return (
-    <View className="mb-7 p-2">
+    <View className="p-2">
       <View className="flex-row gap-x-4">
         {/* profile */}
         <TouchableOpacity>
@@ -94,6 +94,7 @@ export default function TweetCard({ item }) {
           </View>
         </View>
       </View>
+      <View className="h-[1px] bg-gray-600 mt-2" />
       {/* modal comment */}
     </View>
   );
