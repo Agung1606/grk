@@ -5,8 +5,8 @@ import React from "react";
 import { styled, useColorScheme } from "nativewind";
 const StyledSafeAreaView = styled(SafeAreaView);
 // screen
-import PostsScreen from "../components/screen/PostsScreen";
-import TweetsScreen from "../components/screen/TweetsScreen";
+import PostsScreen from "../components/screen/globalPosts/PostsScreen";
+import TweetsScreen from "../components/screen/globalPosts/TweetsScreen";
 // nav
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 const Tab = createMaterialTopTabNavigator();

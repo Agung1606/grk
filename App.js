@@ -41,4 +41,4 @@ function App() {
   );
 }
 
-export default withExpoSnack(App);
+export default App;

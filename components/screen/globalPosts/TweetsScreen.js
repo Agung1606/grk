@@ -1,4 +1,4 @@
-import { View, FlatList, Text, Pressable } from "react-native";
+import { View, FlatList, Text, Pressable, RefreshControl } from "react-native";
 import React, { useState, useMemo } from "react";
 import { styled } from "nativewind";
 const StyledView = styled(View)
@@ -6,10 +6,10 @@ const StyledView = styled(View)
 // route
 import { useNavigation } from "@react-navigation/native";
 // firebase
-import { getTweets } from "../../api/firestore/tweet"
+import { getTweets } from "../../../api/firestore/tweet"
 
 // tweet card
-import TweetCard from "../card/TweetCard";
+import TweetCard from "../../card/TweetCard";
 // redux
 import { useSelector } from "react-redux";
 import { Avatar } from "react-native-paper";
@@ -27,6 +27,10 @@ export default function TweetsScreen() {
   useMemo(() => {
     getTweets(setDataTweets);
   }, []);
+
+  
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => alert('Refecth data!');
 
   if (dataTweets.length === 0) {
     return (
@@ -67,6 +71,9 @@ export default function TweetsScreen() {
         data={dataTweets}
         renderItem={({ item }) => <TweetCard item={item} />}
         keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </StyledView>
   );

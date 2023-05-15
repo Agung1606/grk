@@ -46,7 +46,7 @@ export default function PostCard({ item }) {
   const [moreCaption, setMoreCaption] = useState(false);
   const handleMoreCaption = () => setMoreCaption(!moreCaption); // toggle
   const longCaption =
-    item.caption.length > 80 && !moreCaption
+    item.caption?.length > 80 && !moreCaption
       ? item.caption.slice(0, 80)
       : item.caption;
 

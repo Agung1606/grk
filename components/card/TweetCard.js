@@ -8,15 +8,13 @@ const StyledView = styled(View)
 import { useSelector } from "react-redux";
 // icons
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-// like
-import LikeAnimation from "../common/LikeAnimation";
-import { useSharedValue, withSpring } from "react-native-reanimated";
 // firebase
 import { getLikesByUser, likeTweet } from "../../api/firestore/tweet";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TweetCard({ item }) {
   // loggedin user data
-  const user = useSelector((state) => state.auth.user);
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
   // ==== useState hooks, user interaction config ====
   // tweet
   const [moreTweet, setMoreTweet] = useState(false);
@@ -30,21 +28,28 @@ export default function TweetCard({ item }) {
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
     likeTweet({
-        userId: user.id,
-        tweetId: item.id,
-        isLiked,
-        likesCount: item.likesCount
-    })
+      userId: loggedInUserId,
+      tweetId: item.id,
+      isLiked,
+      likesCount: item.likesCount,
+    });
+  };
+  
+  // route
+  const navigation = useNavigation();
+  const goToProfile = () => {
+    if(item.userId === loggedInUserId) navigation.navigate("ProfileScreen");
+    else navigation.navigate("VisitedProfileScreen", { param: { username: item.username, userId: item.userId } })
   };
 
   useMemo(() => {
-    getLikesByUser({ userId: user.id, tweetId: item.id, setIsLiked });
+    getLikesByUser({ userId: loggedInUserId, tweetId: item.id, setIsLiked });
   }, []);
   return (
     <StyledView className="p-2">
       <View className="flex-row gap-x-4">
         {/* profile */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToProfile}>
           <Avatar.Image source={{ uri: item.userProfileImg }} size={55} />
         </TouchableOpacity>
         {/* container */}

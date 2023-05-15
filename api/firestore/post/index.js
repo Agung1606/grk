@@ -73,6 +73,17 @@ export const getUserPosts = (setDataPosts, userId) => {
   })
 };
 
+// get single post
+export const getSinglePost = (setDataPost, postId) => {
+  onSnapshot(postsRef, (response) => {
+    setDataPost(
+      response.docs.map((doc) => {
+       return { ...doc.data(), id: doc.id };
+      }).filter(doc => doc.id === postId)[0]
+    )
+  })
+};
+
 // like post
 export const likePost = ({ userId, postId, isLiked, likesCount }) => {
   try {
@@ -86,7 +97,7 @@ export const likePost = ({ userId, postId, isLiked, likesCount }) => {
       updateDoc(docToUpdate, { likesCount: likesCount + 1 });
     }
   } catch (error) {
-    console.log(error);
+    console.log("error like firebase");
   }
 };
 
@@ -100,7 +111,6 @@ export const getLikesByUser = ({ userId, postId, setIsLiked }) => {
       const isLiked = likes.some((like) => like.userId === userId);
 
       setIsLiked(isLiked);
-      return isLiked;
     });
   } catch (err) {
     console.log(err);

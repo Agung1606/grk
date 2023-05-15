@@ -5,9 +5,9 @@ const StyledView = styled(View);
 // icon
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 // firebase
-import { getUserTweets } from "../../api/firestore/tweet";
+import { getUserTweets } from "../../../api/firestore/tweet";
 // widget
-import TweetCard from "../card/TweetCard";
+import TweetCard from "../../card/TweetCard";
 
 export default function ProfileTweetsScreen({ userId }) {
   // all tweets

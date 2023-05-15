@@ -1,20 +1,24 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React, { useMemo, useState } from 'react'
-import { FlatGrid } from 'react-native-super-grid';
-import { styled } from 'nativewind'
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useMemo, useState } from "react";
+import { FlatGrid } from "react-native-super-grid";
+import { styled } from "nativewind";
 const StyledView = styled(View);
+import { useNavigation } from "@react-navigation/native";
 // icons
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 // firebase
-import { getUserPosts } from '../../api/firestore/post';
+import { getUserPosts } from "../../../api/firestore/post";
 
 export default function ProfilePostsScreen({ userId }) {
   // all post
-  const [ dataPosts, setDataPosts ] = useState([]);
+  const [dataPosts, setDataPosts] = useState([]);
 
   useMemo(() => {
-    getUserPosts(setDataPosts, userId)
-  }, [])
+    getUserPosts(setDataPosts, userId);
+  }, []);
+
+  // route
+  const navigation = useNavigation();
 
   return (
     <StyledView className="flex-1 bg-white dark:bg-black">
@@ -31,7 +35,7 @@ export default function ProfilePostsScreen({ userId }) {
           data={dataPosts}
           renderItem={({ item }) => (
             <View className="h-[120px]">
-              <TouchableOpacity onPress={() => alert(item.id)}>
+              <TouchableOpacity onPress={() => navigation.navigate("PostScreen", { param: item.id })}>
                 <Image
                   source={{ uri: item.imgPost }}
                   resizeMode="cover"

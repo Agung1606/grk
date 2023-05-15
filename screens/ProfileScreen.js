@@ -14,8 +14,8 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // redux
 import { useSelector } from 'react-redux';
 // component
-import ProfilePostsScreen from '../components/screen/ProfilePostsScreen';
-import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
+import ProfilePostsScreen from '../components/screen/userPosts/ProfilePostsScreen';
+import ProfileTweetsScreen from '../components/screen/userPosts/ProfileTweetsScreen';
 
 
 const tabs = [
@@ -114,26 +114,30 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
         {/* tabs */}
-        <View className="mt-3 mb-4 mx-auto">
+        <View className="my-2 mx-auto">
           <FlatList
             data={tabs}
             renderItem={({ item }) => (
               <TouchableOpacity
                 className={`${
                   activeTab === item.name ? "bg-gray-600/50" : ""
-                } py-[2px] px-[30px] rounded-lg`}
+                } p-[10px] rounded-full`}
                 onPress={() => setActiveTab(item.name)}
               >
                 <MaterialCommunityIcons
                   name={item.iconName}
-                  size={28}
+                  size={35}
                   color={`${activeTab === item.name ? "#fff" : "#AAA9B8"}`}
                 />
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.name}
             horizontal
-            contentContainerStyle={{width: "100%", justifyContent: "space-evenly", alignItems: "center" }}
+            contentContainerStyle={{
+              width: "100%",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
           />
         </View>
         {/* display tab content */}
