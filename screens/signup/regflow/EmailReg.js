@@ -3,6 +3,9 @@ import { View, Text, Pressable } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
+// styled
+import { styled } from 'nativewind'
+const StyledSafeAreaView = styled(SafeAreaView);
 
 // icon
 import { AntDesign } from '@expo/vector-icons'
@@ -34,7 +37,7 @@ export default function EmailReg({ navigation }) {
   };
   
   return (
-    <SafeAreaView className="relative flex-1 bg-white">
+    <StyledSafeAreaView className="relative flex-1 bg-white dark:bg-black">
       <View className="mt-8 mx-3">
         <Pressable onPress={goToLogin}>
           <AntDesign name="arrowleft" size={30} color="#010026" />
@@ -92,6 +95,6 @@ export default function EmailReg({ navigation }) {
           </Text>
         </Pressable>
       </View>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }

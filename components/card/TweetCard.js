@@ -1,6 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { Avatar } from "react-native-paper";
 import React, { useMemo, useState } from "react";
+// styled
+import { styled } from "nativewind";
+const StyledView = styled(View)
+// redux
 import { useSelector } from "react-redux";
 // icons
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -37,7 +41,7 @@ export default function TweetCard({ item }) {
     getLikesByUser({ userId: user.id, tweetId: item.id, setIsLiked });
   }, []);
   return (
-    <View className="p-2">
+    <StyledView className="p-2">
       <View className="flex-row gap-x-4">
         {/* profile */}
         <TouchableOpacity>
@@ -96,6 +100,6 @@ export default function TweetCard({ item }) {
       </View>
       <View className="h-[1px] bg-gray-600 mt-2" />
       {/* modal comment */}
-    </View>
+    </StyledView>
   );
 }

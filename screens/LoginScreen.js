@@ -3,6 +3,9 @@ import { View, Text, Pressable, ActivityIndicator, Image } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from 'react'
+// styled 
+import { styled } from 'nativewind';
+const StyledSafeAreaView = styled(SafeAreaView);
 // logo
 import Logo from '../assets/icon.png'
 // toast
@@ -48,7 +51,7 @@ export default function LoginScreen({ navigation }) {
   // common style
   const inputStyle = "h-[50px] mb-2 bg-indigo-50 rounded-lg";
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
       <View className="relative flex-1 flex-col justify-center items-center">
         <Image source={Logo} className="w-[130px] h-[130px]" />
         {/* form container */}
@@ -119,6 +122,6 @@ export default function LoginScreen({ navigation }) {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }

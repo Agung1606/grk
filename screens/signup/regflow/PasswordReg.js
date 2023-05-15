@@ -3,6 +3,9 @@ import { View, Text, Pressable } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-paper'
 import React, { useState } from 'react'
+// styled
+import { styled } from 'nativewind'
+const StyledSafeAreaView = styled(SafeAreaView);
 
 // form
 import { Formik } from 'formik'
@@ -34,7 +37,7 @@ export default function PasswordReg({ navigation, route }) {
   };
     
   return (
-    <SafeAreaView className="flex-1 bg-white relative">
+    <StyledSafeAreaView className="flex-1 bg-white dark:bg-black relative">
       <View className="mt-6 mx-3">
         <Text className="text-3xl font-semibold">Create a password</Text>
         <Text className="tracking-wide mt-2 pr-8">
@@ -45,7 +48,7 @@ export default function PasswordReg({ navigation, route }) {
       {/* form */}
       <View className="mt-8 mx-3">
         <Formik
-          initialValues={{ password: '' }}
+          initialValues={{ password: "" }}
           validationSchema={passwordValidate}
           onSubmit={handlePasswordSubmit}
         >
@@ -87,6 +90,6 @@ export default function PasswordReg({ navigation, route }) {
           )}
         </Formik>
       </View>
-    </SafeAreaView>
+    </StyledSafeAreaView>
   );
 }

@@ -5,7 +5,10 @@ module.exports = function (api) {
     plugins: [
       "nativewind/babel",
       "@babel/plugin-proposal-export-namespace-from",
-      "react-native-reanimated/plugin",
+      ["react-native-reanimated/plugin",
+      {
+        relativeSourceLocation: true,
+      }],
       [
         "module:react-native-dotenv",
         {

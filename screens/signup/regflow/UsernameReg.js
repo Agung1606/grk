@@ -3,6 +3,9 @@ import { View, Text, Pressable, ActivityIndicator } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { TextInput } from "react-native-paper"
 import React, { useState } from 'react'
+// styled
+import { styled } from 'nativewind'
+const StyledSafeAreaView = styled(SafeAreaView);
 
 // secret
 import { DEFAULT_AVATAR } from '@env'
@@ -61,7 +64,7 @@ export default function UsernameReg({ route }) {
       }
     };
     return (
-      <SafeAreaView className="flex-1 bg-white relative">
+      <StyledSafeAreaView className="flex-1 bg-white dark:bg-black relative">
         <View className="mt-6 mx-3">
           <Text className="text-3xl font-semibold">What's your username?</Text>
           <Text className="tracking-wide mt-2 pr-8">
@@ -71,7 +74,7 @@ export default function UsernameReg({ route }) {
         {/* form */}
         <View className="mt-8 mx-3">
           <Formik
-            initialValues={{ username: '' }}
+            initialValues={{ username: "" }}
             validationSchema={usernameValidate}
             onSubmit={handleRegister}
           >
@@ -110,6 +113,6 @@ export default function UsernameReg({ route }) {
             )}
           </Formik>
         </View>
-      </SafeAreaView>
+      </StyledSafeAreaView>
     );
 }

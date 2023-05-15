@@ -8,9 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // firebase
 import { getUserPosts } from '../../api/firestore/post';
 
-export default function ProfilePostsScreen({ route }) {
-  const userId = route?.params?.param
-
+export default function ProfilePostsScreen({ userId }) {
   // all post
   const [ dataPosts, setDataPosts ] = useState([]);
 
@@ -18,33 +16,32 @@ export default function ProfilePostsScreen({ route }) {
     getUserPosts(setDataPosts, userId)
   }, [])
 
-  if(dataPosts.length === 0) {
-    return (
-      <StyledView className="flex-1 bg-white dark:bg-black justify-center items-center">
-        <MaterialCommunityIcons name="emoticon-sad-outline" size={30} />
-        <Text className="text-xl font-bold">No Posts</Text>
-      </StyledView>
-    );
-  }
-
   return (
     <StyledView className="flex-1 bg-white dark:bg-black">
-      <FlatGrid
-        itemDimension={95}
-        spacing={2}
-        data={dataPosts}
-        renderItem={({ item }) => (
-          <View className="h-[120px]">
-            <TouchableOpacity onPress={() => alert(item.id)}>
-              <Image
-                source={{ uri: item.imgPost }}
-                resizeMode="cover"
-                className="w-full h-full"
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      {dataPosts.length === 0 ? (
+        <View className="justify-center items-center">
+          <MaterialCommunityIcons name="emoticon-sad-outline" size={30} />
+          <Text className="text-xl font-bold">No Posts</Text>
+        </View>
+      ) : (
+        <FlatGrid
+          scrollEnabled={false}
+          itemDimension={95}
+          spacing={2}
+          data={dataPosts}
+          renderItem={({ item }) => (
+            <View className="h-[120px]">
+              <TouchableOpacity onPress={() => alert(item.id)}>
+                <Image
+                  source={{ uri: item.imgPost }}
+                  resizeMode="cover"
+                  className="w-full h-full"
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      )}
     </StyledView>
   );
 }

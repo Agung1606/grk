@@ -18,8 +18,8 @@ import { styled } from "nativewind"
 const StyledPressable = styled(Pressable)
 // pickImage
 import * as MediaLibrary from 'expo-media-library'
-// progress
-import * as Progress from "react-native-progress";
+// toast
+import Toast from "react-native-toast-message";
 
 export default function EditProfileScreen({ navigation }) {
   // redux
@@ -42,6 +42,10 @@ export default function EditProfileScreen({ navigation }) {
         userId: user.id,
         profileImg: selectedImg,
         dispatch
+      });
+      Toast.show({
+        type: "success",
+        text1: "Berhasil ganti profile",
       });
     }
     goBack();

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useMemo, useRef, useState } from 'react'
 import { Avatar } from 'react-native-paper';
@@ -13,12 +13,21 @@ import { getAmountOfFollowers } from '../api/firestore/user';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 // redux
 import { useSelector } from 'react-redux';
-// navigation
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-const Tab = createMaterialTopTabNavigator();
 // component
 import ProfilePostsScreen from '../components/screen/ProfilePostsScreen';
 import ProfileTweetsScreen from '../components/screen/ProfileTweetsScreen';
+
+
+const tabs = [
+  {
+    name: "posts",
+    iconName: "dots-grid",
+  },
+  {
+    name: "tweets",
+    iconName: "bird",
+  },
+];
 
 export default function ProfileScreen({ navigation }) {
   // route
@@ -26,8 +35,6 @@ export default function ProfileScreen({ navigation }) {
   const goToEditProfile = () => navigation.navigate("EditProfileScreen");
   // username logged in
   const user = useSelector((state) => state.auth.user);
-  // theme
-  const { colorScheme } = useColorScheme();
 
   // modal config
   const bottomSheetModalRef = useRef(null);
@@ -42,6 +49,16 @@ export default function ProfileScreen({ navigation }) {
     getAmountOfFollowers({ userId: user.id, setFollowersCount, setFollowingsCount})
   }, [])
 
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
+  const displayTabContent = () => {
+    switch(activeTab) {
+      case "posts":
+        return <ProfilePostsScreen userId={user.id} />
+      case "tweets":
+        return <ProfileTweetsScreen userId={user.id} />
+    }
+  }
+
   return (
     <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
       <View className="flex-row justify-between items-center mx-[20px] mt-[12px] mb-[25px]">
@@ -55,79 +72,73 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      {/* profile and info */}
-      <View className="flex-row justify-between items-center mx-[20px] space-x-4">
-        <Avatar.Image source={{ uri: user.profileImg }} size={90} />
-        <View className="flex-1 flex-row justify-center items-center space-x-4">
-          {/* followers */}
-          <View className="items-center">
-            <Text className="text-xl font-bold">{followersCount}</Text>
-            <Text>Followers</Text>
-          </View>
-          {/* following */}
-          <View className="items-center">
-            <Text className="text-xl font-bold">{followingsCount}</Text>
-            <Text>Following</Text>
+      <ScrollView>
+        {/* profile and info */}
+        <View className="flex-row justify-between items-center mx-[20px] space-x-4">
+          <Avatar.Image source={{ uri: user.profileImg }} size={90} />
+          <View className="flex-1 flex-row justify-center items-center space-x-4">
+            {/* followers */}
+            <View className="items-center">
+              <Text className="text-xl font-bold">{followersCount}</Text>
+              <Text>Followers</Text>
+            </View>
+            {/* following */}
+            <View className="items-center">
+              <Text className="text-xl font-bold">{followingsCount}</Text>
+              <Text>Following</Text>
+            </View>
           </View>
         </View>
-      </View>
-      {/* name and bio */}
-      <View className="mx-[20px] my-[2px]">
-        <Text className="font-semibold font-itim">{user.name}</Text>
-        <Text>{user.bio}</Text>
-      </View>
-      {/* button */}
-      <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">
-        <TouchableOpacity
-          onPress={goToEditProfile}
-          className="bg-gray-300 w-1/2 py-1 rounded-lg"
-        >
-          <Text className="text-[17px] text-center font-semibold">
-            Edit profile
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => alert("Share profile")}
-          className="bg-gray-300 w-1/2 py-1 rounded-lg"
-        >
-          <Text className="text-[17px] text-center font-semibold">
-            Share profile
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {/* postingan photo and tweets */}
-      <Tab.Navigator
-        screenOptions={{
-          tabBarLabelStyle: { fontSize: 12 },
-          tabBarShowLabel: false,
-          tabBarIndicatorStyle: {
-            backgroundColor: "#808080",
-          },
-          tabBarStyle: {
-            backgroundColor: colorScheme === "light" ? "#ffffff" : "#000000",
-          },
-        }}
-      >
-        <Tab.Screen
-          name="posts"
-          component={ProfilePostsScreen}
-          initialParams={{ param: user.id }}
-          options={{
-            tabBarIcon: () => (
-              <MaterialCommunityIcons name="dots-grid" size={25} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="tweets"
-          component={ProfileTweetsScreen}
-          initialParams={{ param: user.id }}
-          options={{
-            tabBarIcon: () => <MaterialCommunityIcons name="bird" size={25} />,
-            lazy: true,
-          }}
-        />
-      </Tab.Navigator>
+        {/* name and bio */}
+        <View className="mx-[20px] my-[2px]">
+          <Text className="font-semibold font-itim">{user.name}</Text>
+          <Text>{user.bio}</Text>
+        </View>
+        {/* button */}
+        <View className="flex-row justify-between items-center space-x-2 mx-[20px] my-2">
+          <TouchableOpacity
+            onPress={goToEditProfile}
+            className="bg-gray-300 w-1/2 py-1 rounded-lg"
+          >
+            <Text className="text-[17px] text-center font-semibold">
+              Edit profile
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => alert("Share profile")}
+            className="bg-gray-300 w-1/2 py-1 rounded-lg"
+          >
+            <Text className="text-[17px] text-center font-semibold">
+              Share profile
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* tabs */}
+        <View className="mt-3 mb-4 mx-auto">
+          <FlatList
+            data={tabs}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className={`${
+                  activeTab === item.name ? "bg-gray-600/50" : ""
+                } py-[2px] px-[30px] rounded-lg`}
+                onPress={() => setActiveTab(item.name)}
+              >
+                <MaterialCommunityIcons
+                  name={item.iconName}
+                  size={28}
+                  color={`${activeTab === item.name ? "#fff" : "#AAA9B8"}`}
+                />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.name}
+            horizontal
+            contentContainerStyle={{width: "100%", justifyContent: "space-evenly", alignItems: "center" }}
+          />
+        </View>
+        {/* display tab content */}
+        {displayTabContent()}
+      </ScrollView>
       {/* setting modal */}
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -138,4 +149,45 @@ export default function ProfileScreen({ navigation }) {
       </BottomSheetModal>
     </StyledSafeAreaView>
   );
+}
+
+{
+  /* postingan photo and tweets */
+}
+{
+  /* <Tab.Navigator
+            screenOptions={{
+              tabBarLabelStyle: { fontSize: 12 },
+              tabBarShowLabel: false,
+              tabBarIndicatorStyle: {
+                backgroundColor: "#808080",
+              },
+              tabBarStyle: {
+                backgroundColor:
+                  colorScheme === "light" ? "#ffffff" : "#000000",
+              },
+            }}
+          >
+            <Tab.Screen
+              name="posts"
+              component={ProfilePostsScreen}
+              initialParams={{ param: user.id }}
+              options={{
+                tabBarIcon: () => (
+                  <MaterialCommunityIcons name="dots-grid" size={25} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="tweets"
+              component={ProfileTweetsScreen}
+              initialParams={{ param: user.id }}
+              options={{
+                tabBarIcon: () => (
+                  <MaterialCommunityIcons name="bird" size={25} />
+                ),
+                lazy: true,
+              }}
+            />
+          </Tab.Navigator> */
 }

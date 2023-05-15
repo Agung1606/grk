@@ -16,7 +16,7 @@ export default function ChoosePhoto({ navigation }) {
   const [selectedImg, setSelectedImg] = useState(null); // this state will posted to firebase
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [amount, setAmount] = useState(5);
+  const [amount, setAmount] = useState(50);
 
   if (status === null) requestPermission();
 
@@ -59,6 +59,22 @@ export default function ChoosePhoto({ navigation }) {
     });
   };
 
+  const renderItem = ({ item }) => (
+    <View className="mx-[5px]">
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedImg({ uri: item.uri, name: item.filename });
+        }}
+      >
+        <Image
+          source={{ uri: item.uri }}
+          className="w-[110px] h-[110px]"
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <StyledSafeAreaView className="flex-1 bg-white dark:bg-black">
       <View className="mx-4 mt-4 flex-row justify-between items-center">
@@ -91,21 +107,7 @@ export default function ChoosePhoto({ navigation }) {
         <FlatList
           data={assets}
           horizontal
-          renderItem={({ item }) => (
-            <View className="mx-[5px]">
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedImg({ uri: item.uri, name: item.filename });
-                }}
-              >
-                <Image
-                  source={{ uri: item.uri }}
-                  className="w-[110px] h-[110px]"
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-            </View>
-          )}
+          renderItem={renderItem}
           keyExtractor={(item) => item.id}
           ListFooterComponent={loadMore}
         />

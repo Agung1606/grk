@@ -46,21 +46,23 @@ export default function Search({ close }) {
       <View className="my-3">
         {searchedUser &&
           searchedUser?.map((data) => (
-            <StyledPressable
-              onPress={() => {
-                if (data.id === loggedInUserId)
-                  navigation.navigate("ProfileScreen");
-                else
-                  navigation.navigate("VisitedProfileScreen", {
-                    param: {username: data.username, userId: data.id}
-                  });
-              }}
-              key={data?.id}
-              className="flex-row items-center space-x-2 py-[5px] active:bg-gray-200 rounded-lg"
-            >
-              <Avatar.Image source={{ uri: data.profileImg }} size={50} />
-              <Text className="text-lg text-gray-600">{data.username}</Text>
-            </StyledPressable>
+            <View key={data?.id} className="my-2">
+              <StyledPressable
+                onPress={() => {
+                  if (data.id === loggedInUserId)
+                    navigation.navigate("ProfileScreen");
+                  else
+                    navigation.navigate("VisitedProfileScreen", {
+                      param: { username: data.username, userId: data.id },
+                    });
+                }}
+                className="flex-row items-center space-x-2 py-[2px] active:bg-gray-200 rounded-lg"
+              >
+                <Avatar.Image source={{ uri: data.profileImg }} size={50} />
+                <Text className="text-lg text-gray-600">{data.username}</Text>
+              </StyledPressable>
+              <View className="h-[1px] bg-gray-600 my-[2px]" />
+            </View>
           ))}
       </View>
     </>

@@ -1,6 +1,9 @@
 import { View, Text, Image, Pressable, TouchableOpacity } from "react-native";
 import React, { useRef, useMemo, useState } from "react";
 import { Avatar } from "react-native-paper";
+// styled
+import { styled } from "nativewind";
+const StyledView = styled(View)
 // comment
 import CommentsPost from "../modal/CommentsPost";
 // likes
@@ -60,7 +63,7 @@ export default function PostCard({ item }) {
   }, []);
 
   return (
-    <View className="mb-7 p-2">
+    <StyledView className="my-[15px] p-2">
       {/* user's photo and username */}
       <View className="flex-row justify-between items-center mb-2">
         <Pressable onPress={goToProfile}>
@@ -76,11 +79,11 @@ export default function PostCard({ item }) {
       {/* user's post photo */}
       <View className="relative mx-auto mb-2">
         <TapGestureHandler numberOfTaps={2} onActivated={handleLike}>
-            <Image
-              source={{ uri: item.imgPost }}
-              style={{ width: 340, height: 340 }}
-              resizeMode="cover"
-            />
+          <Image
+            source={{ uri: item.imgPost }}
+            style={{ width: 340, height: 340 }}
+            resizeMode="cover"
+          />
         </TapGestureHandler>
         {/* love animation when user click like button */}
       </View>
@@ -113,7 +116,9 @@ export default function PostCard({ item }) {
         {/* username and caption */}
         {item.caption && (
           <Text>
-            <Text onPress={goToProfile} className="font-extrabold">{item.username}</Text>{" "}
+            <Text onPress={goToProfile} className="font-extrabold">
+              {item.username}
+            </Text>{" "}
             <Text>
               {longCaption}{" "}
               {item.caption.length > 40 && !moreCaption && (
@@ -152,6 +157,6 @@ export default function PostCard({ item }) {
           commentsCount={item.commentsCount}
         />
       </BottomSheetModal>
-    </View>
+    </StyledView>
   );
 }
