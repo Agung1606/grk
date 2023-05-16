@@ -30,7 +30,11 @@ export default function TweetsScreen() {
 
   
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = () => alert('Refecth data!');
+  const onRefresh = () => {
+    setRefreshing(true)
+    getTweets(setDataTweets)
+    setRefreshing(false)
+  }
 
   if (dataTweets.length === 0) {
     return (

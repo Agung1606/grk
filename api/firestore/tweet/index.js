@@ -14,6 +14,7 @@ import {
 
 let tweetsRef = collection(firestore, "tweets")
 let likesRef = collection(firestore, "likesTweet")
+let commentsRef = collection(firestore, "CommentsTweet")
 
 // posting tweet
 export const postingTweet = ({object,setTweet}) => {
@@ -91,5 +92,54 @@ export const getLikesByUser = ({ userId, tweetId, setIsLiked }) => {
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+// comment tweet
+export const commentTweet = ({
+  userId,
+  tweetId,
+  username,
+  userProfileImg,
+  comment,
+  date,
+  commentsCount,
+  setComment
+}) => {
+  try {
+    let docToUpdate = doc(tweetsRef, tweetId)
+    addDoc(commentsRef, {
+      userId,
+      tweetId,
+      username,
+      userProfileImg,
+      comment,
+      date
+    })
+    updateDoc(docToUpdate, { commentsCount: commentsCount + 1 })
+    setComment("")
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// get tweet comments
+export const getComments = ({ tweetId, setDataComments }) => {
+  try {
+    let q = query(
+      commentsRef,
+      where("tweetId", "==", tweetId, orderBy("date", "desc")),
+    )
+    onSnapshot(q, (response) => {
+      const comments = response.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id
+        }
+      });
+      setDataComments(comments)
+    });
+  } catch (error) {
+    
   }
 };

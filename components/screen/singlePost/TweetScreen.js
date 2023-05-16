@@ -14,6 +14,7 @@ import {
   getSingleTweet,
   getLikesByUser,
   likeTweet,
+  getComments,
 } from "../../../api/firestore/tweet";
 import { useSelector } from "react-redux";
 
@@ -37,6 +38,9 @@ export default function TweetScreen({ route, navigation }) {
     });
   };
 
+  // comments
+  const [ dataComments, setDataComments ] = useState([]);
+
   // modal comment config
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["95%"], []);
@@ -45,6 +49,7 @@ export default function TweetScreen({ route, navigation }) {
 
   useMemo(() => {
     getSingleTweet(setDataTweet, tweetId);
+    getComments({ tweetId, setDataComments });
     getLikesByUser({ userId: loggedInUserId, tweetId, setIsLiked });
   }, [tweetId]);
 
@@ -135,10 +140,29 @@ export default function TweetScreen({ route, navigation }) {
                   </View>
                 </View>
               </View>
-              <View className="h-[1px] bg-gray-600 mx-2" />
+              <View className="h-[1px] bg-gray-600 mx-2 mb-4" />
             </>
           )}
           // list comment
+          data={dataComments}
+          renderItem={({ item }) => (
+            <>
+              <View className="m-2 flex-row items-center space-x-2">
+                <TouchableOpacity onPress={() => alert("go to user'profile ")}>
+                  <Avatar.Image
+                    size={30}
+                    source={{ uri: item.userProfileImg }}
+                  />
+                </TouchableOpacity>
+                <View>
+                  <Text className="text-[13px] text-gray-400">{item.username}</Text>
+                  <Text>{item.comment}</Text>
+                </View>
+              </View>
+              <View className="h-[1px] bg-gray-600 mx-2 mb-4" />
+            </>
+          )}
+          keyExtractor={(item) => item.id}
         />
       )}
       <BottomSheetModal
@@ -150,6 +174,7 @@ export default function TweetScreen({ route, navigation }) {
           closeModal={closeModal}
           replyingTo={dataTweet.username}
           tweetId={tweetId}
+          commentsCount={dataTweet.commentsCount}
         />
       </BottomSheetModal>
     </StyledSafeAreaView>

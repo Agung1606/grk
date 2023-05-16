@@ -15,7 +15,11 @@ export default function PostsScreen() {
   }, []);
 
   const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = () => alert('Refect data!')
+  const onRefresh = () => {
+    setRefreshing(true)
+    getPosts(setDataPosts)
+    setRefreshing(false)
+  }
 
   if (dataPosts.length === 0) {
     return (

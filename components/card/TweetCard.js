@@ -18,7 +18,7 @@ import { getLikesByUser, likeTweet } from "../../api/firestore/tweet";
 
 export default function TweetCard({ item }) {
   // loggedin user id
-  const loggedInUserId = useSelector((state) => state.auth.user.id);
+  const user = useSelector((state) => state.auth.user);
   // ==== useState hooks, user interaction config ====
   // tweet
   const [moreTweet, setMoreTweet] = useState(false);
@@ -32,7 +32,7 @@ export default function TweetCard({ item }) {
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
     likeTweet({
-      userId: loggedInUserId,
+      userId: user.id,
       tweetId: item.id,
       isLiked,
       likesCount: item.likesCount,
@@ -42,7 +42,7 @@ export default function TweetCard({ item }) {
   // route
   const navigation = useNavigation();
   const goToProfile = () => {
-    if (item.userId === loggedInUserId) navigation.navigate("ProfileScreen");
+    if (item.userId === user.id) navigation.navigate("ProfileScreen");
     else
       navigation.navigate("VisitedProfileScreen", {
         param: { username: item.username, userId: item.userId },
@@ -56,7 +56,7 @@ export default function TweetCard({ item }) {
   const closeModal = () => bottomSheetModalRef.current.dismiss();
 
   useMemo(() => {
-    getLikesByUser({ userId: loggedInUserId, tweetId: item.id, setIsLiked });
+    getLikesByUser({ userId: user.id, tweetId: item.id, setIsLiked });
   }, []);
   return (
     <StyledView className="p-2">
@@ -132,6 +132,7 @@ export default function TweetCard({ item }) {
           closeModal={closeModal}
           replyingTo={item.username}
           tweetId={item.id}
+          commentsCount={item.commentsCount}
         />
       </BottomSheetModal>
     </StyledView>

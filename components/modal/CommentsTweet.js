@@ -4,13 +4,27 @@ import React, { useState } from 'react'
 import { Avatar } from 'react-native-paper';
 // icons
 import { MaterialIcons } from '@expo/vector-icons'
+// firebase
+import { commentTweet } from '../../api/firestore/tweet';
 
-export default function CommentsTweet({ closeModal, replyingTo, tweetId }) {
-    const user = useSelector((state) => state.auth.user);
-    const [height, setHeight] = useState(0); // for TextInput auto grow
-    const [comment, setComment] = useState(''); // for comment value
+export default function CommentsTweet({ closeModal, replyingTo, tweetId, commentsCount }) {
+  const user = useSelector((state) => state.auth.user);
+  const [height, setHeight] = useState(0); // for TextInput auto grow
+  const [comment, setComment] = useState(""); // for comment value
 
-    const handleComment = () => alert('Sending comment!')
+  const handleComment = () => {
+    commentTweet({
+      userId: user.id,
+      tweetId,
+      username: user.username,
+      userProfileImg: user.profileImg,
+      comment,
+      date: new Date().toLocaleDateString(),
+      commentsCount,
+      setComment
+    });
+    closeModal();
+  };
   return (
     <View className="flex-1 px-4">
       {/* close and reply button */}

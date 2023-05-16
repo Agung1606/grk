@@ -13,7 +13,6 @@ import {
   limit,
 } from "firebase/firestore";
 
-let usersRef = collection(firestore, "users");
 let postsRef = collection(firestore, "posts");
 let likesRef = collection(firestore, "likesPost");
 let commentsRef = collection(firestore, "commentsPost");
@@ -146,7 +145,7 @@ export const commentPost = ({
 };
 
 // get posts comments
-export const getComments = async ({ postId, setDataComments}) => {
+export const getComments = ({ postId, setDataComments}) => {
   try {
     let q = query(
       commentsRef,
