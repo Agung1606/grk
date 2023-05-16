@@ -4,8 +4,6 @@ import { Avatar } from "react-native-paper";
 // styled
 import { styled } from "nativewind";
 const StyledView = styled(View)
-// comment
-import CommentsPost from "../modal/CommentsPost";
 // likes
 import { TapGestureHandler } from "react-native-gesture-handler";
 // redux
@@ -16,6 +14,7 @@ import { likePost, getLikesByUser } from "../../api/firestore/post";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 // bottom modal
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import CommentsPost from "../modal/CommentsPost";
 
 import { useNavigation } from "@react-navigation/native";
 

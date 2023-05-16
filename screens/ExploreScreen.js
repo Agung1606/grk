@@ -11,7 +11,7 @@ import Search from "../components/common/Search";
 // firebase
 import { getExplorePost } from "../api/firestore/post";
 
-export default function ExploreScreen() {
+export default function ExploreScreen({ navigation }) {
   const [openSearch, setOpenSearch] = useState(false);
   const open = () => setOpenSearch(true);
   const close = () => setOpenSearch(false);
@@ -51,7 +51,11 @@ export default function ExploreScreen() {
             data={postsData}
             renderItem={({ item }) => (
               <View className="h-[120px]">
-                <TouchableOpacity onLongPress={() => alert("agung ganteng")}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("PostScreen", { param: item.id })
+                  }
+                >
                   <Image
                     source={{ uri: item.imgPost }}
                     resizeMode="cover"

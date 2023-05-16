@@ -1,19 +1,23 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { Avatar } from "react-native-paper";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 // styled
 import { styled } from "nativewind";
-const StyledView = styled(View)
+const StyledView = styled(View);
+const StyledText = styled(Text);
+// bottom modal
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import CommentsTweet from "../modal/CommentsTweet";
 // redux
 import { useSelector } from "react-redux";
 // icons
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 // firebase
 import { getLikesByUser, likeTweet } from "../../api/firestore/tweet";
-import { useNavigation } from "@react-navigation/native";
 
 export default function TweetCard({ item }) {
-  // loggedin user data
+  // loggedin user id
   const loggedInUserId = useSelector((state) => state.auth.user.id);
   // ==== useState hooks, user interaction config ====
   // tweet
@@ -34,13 +38,22 @@ export default function TweetCard({ item }) {
       likesCount: item.likesCount,
     });
   };
-  
+
   // route
   const navigation = useNavigation();
   const goToProfile = () => {
-    if(item.userId === loggedInUserId) navigation.navigate("ProfileScreen");
-    else navigation.navigate("VisitedProfileScreen", { param: { username: item.username, userId: item.userId } })
+    if (item.userId === loggedInUserId) navigation.navigate("ProfileScreen");
+    else
+      navigation.navigate("VisitedProfileScreen", {
+        param: { username: item.username, userId: item.userId },
+      });
   };
+
+  // modal comment config
+  const bottomSheetModalRef = useRef(null);
+  const snapPoints = useMemo(() => ["95%"], []);
+  const openModal = () => bottomSheetModalRef.current.present();
+  const closeModal = () => bottomSheetModalRef.current.dismiss();
 
   useMemo(() => {
     getLikesByUser({ userId: loggedInUserId, tweetId: item.id, setIsLiked });
@@ -65,7 +78,12 @@ export default function TweetCard({ item }) {
             </TouchableOpacity>
           </View>
           {/* tweets */}
-          <Text className="text-[14px]">
+          <StyledText
+            className="text-[14px] active:bg-gray-600/30 rounded-lg"
+            onPress={() =>
+              navigation.navigate("TweetScreen", { param: item.id })
+            }
+          >
             {longTweet} {""}
             {item?.tweet?.length > 550 && !moreTweet && (
               <Text
@@ -75,7 +93,7 @@ export default function TweetCard({ item }) {
                 ...more
               </Text>
             )}
-          </Text>
+          </StyledText>
           {/* like, comment, and share */}
           <View className="mt-[10px] flex-row justify-between items-center">
             {/* like */}
@@ -91,7 +109,7 @@ export default function TweetCard({ item }) {
             </View>
             {/* comment */}
             <View className="flex-row items-center gap-x-1">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={openModal}>
                 <FontAwesome name="comment-o" size={18} color="#7d7d7d" />
               </TouchableOpacity>
               <Text className="text-[#7d7d7d]">{item.commentsCount}</Text>
@@ -105,6 +123,17 @@ export default function TweetCard({ item }) {
       </View>
       <View className="h-[1px] bg-gray-600 mt-2" />
       {/* modal comment */}
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+      >
+        <CommentsTweet
+          closeModal={closeModal}
+          replyingTo={item.username}
+          tweetId={item.id}
+        />
+      </BottomSheetModal>
     </StyledView>
   );
 }

@@ -49,6 +49,17 @@ export const getUserTweets = (setDataTweets, userId) => {
   });
 };
 
+// get single tweet
+export const getSingleTweet = (setDataTweet, tweetId) => {
+  onSnapshot(tweetsRef, (response) => {
+    setDataTweet(
+      response.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }
+      }).filter(doc => doc.id === tweetId)[0]
+    )
+  })
+};
+
 // like tweet
 export const likeTweet = ({ userId, tweetId, isLiked, likesCount }) => {
     try {

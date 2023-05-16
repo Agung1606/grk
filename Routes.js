@@ -6,7 +6,8 @@ import LoginScreen from "./screens/LoginScreen";
 import SignUpRoute from "./screens/signup/SignUpRoute";
 import MainStack from './navigationBottom/MainStack';
 import EditProfileScreen from "./screens/EditProfileScreen";
-import PostScreen from "./components/screen/individualPost/PostScreen";
+import PostScreen from "./components/screen/singlePost/PostScreen"
+import TweetScreen from "./components/screen/singlePost/TweetScreen";
 
 import { useSelector } from "react-redux";
 
@@ -39,9 +40,14 @@ export default function Routes() {
             component={EditProfileScreen}
             options={{ presentation: "modal", animation: "none" }}
           />
-          <Stack.Screen 
+          <Stack.Screen
             name="PostScreen"
             component={PostScreen}
+            options={{ presentation: "modal", animation: "none" }}
+          />
+          <Stack.Screen
+            name="TweetScreen"
+            component={TweetScreen}
             options={{ presentation: "modal", animation: "none" }}
           />
         </Stack.Group>
